@@ -19,3 +19,11 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Korean is the DEFAULT locale, so its content lives in docs/ and its theme
+# strings come from Docusaurus' bundled ko translations. An i18n/ko/ directory
+# is therefore dead weight - but a bare `write-translations` (no --locale)
+# recreates it. Ignored so it stops reappearing in commits.
+# If ko ever stops being the default locale, DELETE THIS RULE - it would then
+# hide real translations.
+/i18n/ko
