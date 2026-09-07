@@ -1,196 +1,186 @@
 ---
 sidebar_position: 2
-title: Marketplace
-description: The browse, chat, meet, and sold loop — plus search, garage sales, and listing management.
+title: 마켓플레이스
+description: 둘러보기·채팅·만남·판매 완료로 이어지는 흐름, 그리고 검색·창고 세일·게시글 관리.
 ---
 
-# Marketplace
+# 마켓플레이스
 
-The whole app exists to complete one loop: **a buyer finds an item, talks to the
-seller, they meet, the item changes hands.** Everything on this page is a step in
-that loop or a shortcut into it.
+앱 전체는 하나의 흐름을 완성하기 위해 존재합니다. **구매자가 물건을 발견하고,
+판매자와 이야기하고, 둘이 만나고, 물건이 손을 바꾼다.** 이 페이지의 모든 내용은 그
+흐름의 한 단계이거나 그 흐름으로 들어가는 지름길입니다.
 
-## Browsing
+## 둘러보기
 
-Home opens to a two-column grid of listing cards for the currently selected
-suburb, ranked by a score rather than by time alone — proximity to the selected
-suburb and freshness both push a post upward. Changing suburb re-ranks the same
-broad set of posts rather than swapping it out.
+홈은 현재 선택된 동네의 게시글 카드를 2열 그리드로 보여 줍니다. 정렬 기준은 시간만이
+아니라 점수입니다. 선택한 동네와의 거리, 그리고 얼마나 최근에 올라왔는지가 모두
+게시글을 위로 밀어 올립니다. 동네를 바꾸면 목록이 통째로 바뀌는 게 아니라, 대체로
+같은 게시글들이 다시 정렬됩니다.
 
-Above the grid sits a single-select filter row. Exactly one filter is always lit,
-and a cold start of the app always resets it to **All**:
+그리드 위에는 단일 선택 필터 줄이 있습니다. 항상 정확히 하나만 켜져 있고, 앱을 완전히
+껐다 켜면 언제나 **전체**로 초기화됩니다.
 
-| Chip | Shows |
+| 칩 | 보여 주는 것 |
 | --- | --- |
-| All | Everything in the feed |
-| Giveaway | Free items only |
-| Under $20 | Items priced below $20 |
+| 전체 | 피드의 모든 게시글 |
+| 나눔 | 무료 물건만 |
+| $20 미만 | $20 아래 가격의 물건 |
 
-Two more controls share that row but are **not** filters, and never take a lit
-state — both open a separate page and leave the feed underneath untouched.
-**Garage sales** sits second, and **Category** closes the row.
+같은 줄에 두 개의 컨트롤이 더 있지만 이것들은 **필터가 아니며**, 켜진 상태가 되지도
+않습니다. 둘 다 별도 페이지를 열 뿐 아래 피드는 그대로입니다. **창고 세일**이 두
+번째에, **카테고리**가 줄 끝에 있습니다.
 
-The filter row collapses out of the way once you scroll past a small threshold and
-re-expands near the top, so long scrolls use the full screen. If the grid is
-replaced by an empty state or an error there is nothing left to scroll, so the row
-reappears on its own and the filters stay reachable.
+필터 줄은 조금만 스크롤해도 접혀서 비켜나고 맨 위 근처로 돌아오면 다시 펼쳐지므로,
+길게 스크롤할 때는 화면을 온전히 씁니다. 그리드가 빈 상태나 오류 화면으로 바뀌면
+스크롤할 것이 없으므로, 필터 줄이 스스로 다시 나타나 항상 손이 닿게 합니다.
 
-Returning to the app refreshes the feed quietly in the background — no banner, no
-spinner, and your scroll position is preserved.
+앱으로 돌아오면 피드는 배경에서 조용히 새로고침됩니다. 배너도 스피너도 없고, 스크롤
+위치는 그대로 유지됩니다.
 
-## Search
+## 검색
 
-Search is for when you already know what you want. The home feed is sorted by
-nearness; typing "dining table" is a different shape of intent, and search answers
-it directly.
+검색은 원하는 것을 이미 알고 있을 때를 위한 것입니다. 홈 피드는 가까운 순으로
+정렬되지만, "식탁"이라고 입력하는 것은 다른 성격의 의도이고 검색이 거기에 곧바로
+답합니다.
 
-- Search covers **the whole city**, not just the selected suburb.
-- It is **multilingual by construction**. Every listing's title and description is
-  stored in all 8 supported languages, so a search typed in any one of them finds
-  posts written in any other.
-- A recent-searches list sits under the search box. It is **per-device**, survives
-  sign-out, and is cleared with "Clear all".
+- 검색은 선택한 동네가 아니라 **도시 전체**를 대상으로 합니다.
+- **구조적으로 다국어**입니다. 모든 게시글의 제목과 설명이 지원되는 8개 언어 전부로
+  저장되어 있어서, 어느 언어로 검색하든 다른 언어로 쓰인 게시글을 찾아냅니다.
+- 검색창 아래에 최근 검색어 목록이 있습니다. 이 목록은 **기기 단위**로 저장되고,
+  로그아웃해도 남으며, "전체 삭제"로 지웁니다.
 
-For a signed-in member, search terms are retained server-side for twelve months
-and are readable by nobody inside the app. A guest's typed words are not retained
-anywhere.
+로그인한 회원의 검색어는 서버에 12개월간 보관되며, 앱 안에서는 아무도 볼 수 없습니다.
+로그인하지 않은 사용자가 입력한 검색어는 어디에도 보관되지 않습니다.
 
-## Garage sales
+## 창고 세일
 
-Close to nine in ten live listings belong to someone who has three or more items
-up at once — and in an ordinary feed those items sit scattered as unrelated cards.
-A shopper who would happily take three of them has no way to notice, and no way to
-ask for all three in one message.
+현재 올라와 있는 게시글의 열에 아홉 가까이는 동시에 세 개 이상을 올려 둔 사람의
+물건입니다. 그런데 일반 피드에서는 그 물건들이 서로 무관한 카드로 흩어져 있습니다.
+그중 세 개를 기꺼이 가져갈 사람도 그 사실을 알아챌 방법이 없고, 세 개를 한 번에
+물어볼 방법도 없습니다.
 
-Garage sales gathers nearby sellers who have several items live and shows each
-person's pile together, so a shopper can see the whole lot before saying a word.
-The goal is **one trip instead of three**: the shopper carries more home, the
-seller clears more in a single meeting.
+창고 세일은 가까이 있으면서 여러 물건을 올려 둔 판매자를 모아, 각자의 물건을 한데
+묶어 보여 줍니다. 구매자는 말을 걸기 전에 전체를 훑어볼 수 있습니다. 목표는 **세 번
+갈 것을 한 번에** 끝내는 것입니다. 구매자는 더 많이 가져가고, 판매자는 한 번의
+만남으로 더 많이 정리합니다.
 
-Sellers do nothing to appear here. There is no box to tick and no form to fill —
-the app groups what is already listed.
+판매자가 여기에 나오기 위해 할 일은 없습니다. 체크할 항목도 작성할 양식도 없이, 앱이
+이미 올라온 것을 묶어 줍니다.
 
-## Selling
+## 판매하기
 
-The sell flow runs in two modes that converge on the same listing shape.
+판매 흐름은 두 가지 방식으로 나뉘지만, 결과물의 형태는 같습니다.
 
-### Single post
+### 한 건씩 올리기
 
-1. Pick 1–3 photos from the gallery.
-2. Choose whether to let the AI assistant pre-fill the text fields, then continue.
-3. If the assistant is on, an "Analysing your photos" overlay covers the form for
-   roughly five to ten seconds while it reasons about the images.
-4. The form fills with a title (naming brand and model where it can identify
-   them), a short listing-style description, and a pre-selected category.
-5. Review and edit anything, set a price or mark it a giveaway, pick a meetup
-   spot, and post.
+1. 갤러리에서 사진을 1~3장 고릅니다.
+2. AI 도우미가 텍스트를 미리 채워 줄지 선택하고 계속을 누릅니다.
+3. 도우미를 켰다면 "사진 분석 중" 오버레이가 대략 5~10초 동안 폼을 덮습니다. 그동안
+   모델이 사진을 살펴봅니다.
+4. 제목(브랜드와 모델을 알아볼 수 있으면 함께), 짧은 판매글 형식의 설명, 미리 선택된
+   카테고리가 채워집니다.
+5. 원하는 대로 고치고, 가격을 정하거나 나눔으로 표시하고, 만남 장소를 고른 뒤
+   등록합니다.
 
-With the assistant off, the form opens immediately with every field empty and the
-seller fills it themselves. Either way the photo row stays editable right up to
-posting.
+도우미를 끄면 폼이 곧바로 빈 상태로 열리고 판매자가 직접 채웁니다. 어느 쪽이든 사진
+줄은 등록 직전까지 계속 수정할 수 있습니다.
 
-Two things the assistant deliberately never decides for the seller:
+도우미가 판매자 대신 절대 결정하지 않는 것이 두 가지 있습니다.
 
-- **It never picks a side of Fashion.** When it can tell an item is a shoe but
-  genuinely cannot tell whose, it offers Women's and Men's and chooses neither.
-- **It never chooses "Other".** That is a judgement only a person makes.
+- **패션의 성별을 대신 고르지 않습니다.** 신발인 것은 알겠는데 누구의 것인지 정말
+  알 수 없을 때는 여성용과 남성용을 함께 제시하고 어느 쪽도 고르지 않습니다.
+- **"기타"를 선택하지 않습니다.** 그것은 사람만이 내리는 판단입니다.
 
-### Bulk post
+### 한꺼번에 올리기
 
-Pick a batch of photos and the app groups them into buckets, one per likely item —
-eight photos might become three drafts. Each bucket becomes a draft listing the
-seller can review, move photos between, split, or delete. The assistant fills the
-same text fields per draft. "Submit all" posts each in turn with per-bucket
-progress.
+사진을 여러 장 고르면 앱이 물건별로 묶음을 만듭니다. 사진 여덟 장이 초안 세 개가 될
+수 있습니다. 각 묶음이 하나의 초안 게시글이 되고, 판매자는 검토하면서 사진을 다른
+묶음으로 옮기거나, 묶음을 나누거나, 통째로 지울 수 있습니다. 도우미는 초안마다 같은
+텍스트 항목을 채웁니다. "전체 등록"을 누르면 묶음별 진행 상황을 보여 주며 하나씩
+등록됩니다.
 
-### Categories
+### 카테고리
 
-Categories are **two levels**. Where a broad category has finer categories
-underneath it — Women's Fashion, Men's Fashion, and Home & Kitchen — picking one
-of those is mandatory on the create, bulk, and edit forms. The remaining broad
-categories have no second level and ask for nothing extra.
+카테고리는 **2단계**입니다. 상위 카테고리 아래에 세부 카테고리가 있는 경우 — 여성
+패션, 남성 패션, 홈 & 키친 — 등록·일괄·수정 폼 모두에서 세부 카테고리를 반드시 골라야
+합니다. 나머지 상위 카테고리에는 2단계가 없고 추가로 묻지 않습니다.
 
-Nine of the finer names are identical across the two sides of Fashion (Shoes,
-Tops, Bags, and so on), so the app tracks *which* category was chosen rather than
-what it is called.
+세부 카테고리 이름 중 아홉 개는 패션의 양쪽에서 완전히 동일합니다(신발, 상의, 가방
+등). 그래서 앱은 이름이 아니라 *어떤* 카테고리가 선택됐는지를 추적합니다.
 
-### Meetup spots
+### 만남 장소
 
-A seller tags a listing with where they would like to hand the item over. The
-picker offers a searchable list of well-known public places near the seller — there
-is no map and no custom pin-dropping. The note pre-fills with the chosen place's
-own name, and clearing it falls back to that name rather than being refused.
+판매자는 물건을 건넬 장소를 게시글에 표시합니다. 선택기는 판매자 근처의 잘 알려진
+공공장소를 이름으로 검색할 수 있는 목록으로 제공합니다. 지도도 없고 직접 핀을 찍는
+방식도 없습니다. 메모는 선택한 장소의 이름으로 자동으로 채워지고, 지우면 거부되는
+대신 그 이름으로 되돌아갑니다.
 
-A meetup spot is optional; posting without one raises a confirmation sheet first.
-A saved spot belongs to the seller rather than to any particular suburb claim, so
-it survives suburb re-verification.
+만남 장소는 선택 사항이며, 지정하지 않고 등록하면 먼저 확인 시트가 뜹니다. 저장된
+장소는 특정 동네 인증이 아니라 판매자에게 속하므로, 동네 재인증을 거쳐도 그대로
+남습니다.
 
-## Chat
+## 채팅
 
-Every conversation is anchored to **three** things at once: the seller, the buyer,
-and the post. The same pair can hold several separate conversations if several
-listings are involved, and two buyers asking about one listing land in two separate
-rooms. That per-post, per-pair shape keeps each thread focused and gives the seller
-an inbox where every row maps to one listing-and-buyer pair.
+모든 대화는 **세 가지**에 동시에 묶여 있습니다. 판매자, 구매자, 그리고 게시글입니다.
+같은 두 사람이라도 여러 게시글에 대해 여러 개의 별도 대화를 가질 수 있고, 한 게시글에
+두 구매자가 문의하면 각각 별도의 방이 됩니다. 게시글별·상대별로 나뉜 이 구조 덕분에
+각 대화는 특정 물건에 집중되고, 판매자는 한 줄이 하나의 물건·구매자 쌍에 대응하는
+깔끔한 목록을 갖게 됩니다.
 
-Chat covers text, image attachments, message translation, push notifications, and
-the seller-side mark-as-sold flow. Messages are permanent once sent. There are no
-read receipts on individual bubbles and no typing indicator.
+채팅은 텍스트, 이미지 첨부, 메시지 번역, 푸시 알림, 그리고 채팅방 안에서 이뤄지는
+판매자의 판매 완료 처리를 다룹니다. 보낸 메시지는 영구적입니다. 개별 말풍선에
+읽음 표시는 없고, 입력 중 표시도 없습니다.
 
-**Draft rooms.** Tapping "Chat with seller" opens the room view locally and
-persists nothing. It does not appear in either inbox and consumes no server
-resource. Back out without sending and no trace remains; send the first message
-and the room plus that message are created in a single server call.
+**임시 방.** "판매자와 채팅하기"를 누르면 방 화면이 로컬에서만 열리고 아무것도
+저장되지 않습니다. 어느 쪽 목록에도 나타나지 않고 서버 자원도 쓰지 않습니다. 아무것도
+보내지 않고 나가면 흔적이 남지 않습니다. 첫 메시지를 보내는 순간 방과 그 메시지가 서버
+호출 한 번으로 함께 생성됩니다.
 
-**Inbox.** The Chat tab holds Buy and Sell sub-tabs. A cold start always lands on
-Buy; within a session your last choice is preserved. Each row shows the other
-party, a message preview, the time of last activity, a "needs you" indicator, and
-a thumbnail of the anchor post.
+**목록.** 채팅 탭에는 구매와 판매 하위 탭이 있습니다. 앱을 완전히 껐다 켜면 항상
+구매로 시작하고, 한 세션 안에서는 마지막 선택이 유지됩니다. 각 줄에는 상대방, 메시지
+미리보기, 마지막 활동 시각, "내 차례" 표시, 그리고 해당 게시글의 썸네일이 보입니다.
 
-Every system-style row in a thread is written by the app, never by a person — the
-intro line at the top of a room, the "Item sold" row that lands in sibling rooms,
-hold notes, and the review invitation.
+대화 속 시스템 형식의 줄은 모두 사람이 아니라 앱이 씁니다. 방 상단의 안내 문구, 같은
+게시글의 다른 방에 들어가는 "판매 완료" 줄, 예약 안내, 후기 요청이 그렇습니다.
 
-### The performance bar
+### 성능 기준
 
-In plain language, "chat works well" means:
+쉬운 말로 "채팅이 잘 동작한다"는 뜻은 이렇습니다.
 
-- My message appears in my own thread the moment I tap send.
-- A message sent to me while I am in the room appears within about two seconds,
-  with no refresh.
-- The Chat tab's inbox appears within about a second.
-- Switching between Buy and Sell feels instant.
+- 보내기를 누르는 즉시 내 대화창에 메시지가 뜬다.
+- 방 안에 있을 때 상대가 보낸 메시지가 새로고침 없이 2초 안에 보인다.
+- 채팅 탭의 목록이 1초 안에 뜬다.
+- 구매와 판매 사이 전환이 즉각적으로 느껴진다.
 
-Those bars apply to a recent device on 4G, 5G, or Wi-Fi.
+이 기준은 최신 기기에서 4G·5G·Wi-Fi 환경을 전제로 합니다.
 
-## Closing the trade
+## 거래 마무리
 
-The seller marks the item sold and picks which of the people they chatted with
-actually bought it — either from inside the chat, or from their listings. Sibling
-rooms about the same post receive an "Item sold" row, and the buyer gets a note
-naming what was recorded as sold to them.
+판매자가 판매 완료로 표시하고, 대화한 사람 중 실제로 구매한 사람을 고릅니다. 채팅
+안에서도, 내 게시글 목록에서도 할 수 있습니다. 같은 게시글의 다른 방에는 "판매 완료"
+줄이 들어가고, 구매자에게는 무엇이 자신에게 판매된 것으로 기록됐는지 알리는 안내가
+갑니다.
 
-That completed trade unlocks a **review** for both sides. See
-[Community & Rewards](./community-and-rewards.md#reviews-after-a-trade).
+완료된 거래는 양쪽 모두에게 **후기**를 열어 줍니다.
+[커뮤니티와 리워드](./community-and-rewards.md#거래-후-후기)를 보세요.
 
-## Listing management
+## 게시글 관리
 
-Beyond create and sell, a listing supports:
+등록과 판매 외에 게시글에서 할 수 있는 것들입니다.
 
-- **Editing** — text, price, category, photos, and meetup spot after publishing.
-- **Reserving** — putting the item on hold for a specific buyer, which posts a
-  "Reserved for you" note into their room. A reserved listing is still a real,
-  live listing.
-- **Status control** — marking a listing sold, or taking it down.
-- **Price drops** — with a hint surfaced to people who showed interest.
-- **Sharing** — a link that opens the listing directly, usable signed in or out.
-- **View counts** — shown on the listing.
+- **수정** — 등록 후에도 글, 가격, 카테고리, 사진, 만남 장소를 고칠 수 있습니다.
+- **예약** — 특정 구매자를 위해 물건을 잡아 두면 그 사람의 채팅방에 "예약됨" 안내가
+  들어갑니다. 예약된 게시글도 여전히 살아 있는 정상 게시글입니다.
+- **상태 변경** — 판매 완료 처리, 또는 내리기.
+- **가격 인하** — 관심을 보인 사람들에게 알림이 갑니다.
+- **공유** — 게시글로 바로 연결되는 링크이며, 로그인 여부와 무관하게 씁니다.
+- **조회수** — 게시글에 표시됩니다.
 
-## Trust and safety
+## 신뢰와 안전
 
-- **Report** a listing, a community post, or a member.
-- **Block** a member, which removes them from your surfaces.
-- **Restricted listings and posts** — content held back from general view, with
-  its own screen explaining the state.
-- **Bans** — enforced server-side, not by client checks.
-- **Admin review** of listings and community content.
+- 게시글, 커뮤니티 글, 회원을 **신고**할 수 있습니다.
+- 회원을 **차단**하면 내 화면에서 사라집니다.
+- **제한된 게시글과 글** — 일반 노출에서 빠진 콘텐츠로, 상태를 설명하는 전용 화면이
+  있습니다.
+- **이용 정지** — 클라이언트 검사가 아니라 서버에서 강제됩니다.
+- 게시글과 커뮤니티 콘텐츠에 대한 **운영자 검토**.

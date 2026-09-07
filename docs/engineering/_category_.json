@@ -1,8 +1,8 @@
 {
-  "label": "Engineering",
+  "label": "엔지니어링",
   "position": 3,
   "link": {
     "type": "generated-index",
-    "description": "How PopOut is built, deployed, and kept working."
+    "description": "PopOut이 어떻게 만들어지고 배포되며 유지되는지 설명합니다."
   }
 }

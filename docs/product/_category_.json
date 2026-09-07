@@ -1,8 +1,8 @@
 {
-  "label": "Product",
+  "label": "제품",
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "What the PopOut app does, described from the user's side."
+    "description": "PopOut 앱이 무엇을 하는지, 사용자 입장에서 설명합니다."
   }
 }

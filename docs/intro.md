@@ -1,64 +1,62 @@
 ---
 slug: /
 sidebar_position: 1
-title: Introduction
-description: Documentation for PopOut Market — a hyperlocal buy-and-sell app for Melbourne neighbourhoods.
+title: 소개
+description: 멜버른 동네를 위한 중고 직거래 앱, PopOut Market 문서입니다.
 ---
 
-# PopOut Docs
+# PopOut 문서
 
-PopOut Market is a hyperlocal C2C marketplace for iOS and Android. Neighbours
-list the things they no longer need, find them in a feed ranked by how close and
-how fresh they are, agree a price and a meetup spot in chat, and hand the item
-over in person. It has been live in the Melbourne market since June 2026.
+PopOut Market은 iOS와 Android용 **하이퍼로컬 C2C 중고 거래 마켓**입니다. 이웃이
+더 이상 쓰지 않는 물건을 올리면, 다른 이웃이 가까운 순·최신 순으로 정렬된 피드에서
+그 물건을 찾고, 채팅으로 가격과 만날 장소를 정한 뒤, 직접 만나 건네줍니다. 2026년
+6월부터 멜버른에서 정식 서비스 중입니다.
 
-This site is the reference for both halves of that: what the app does, and how it
-is built.
+이 사이트는 그 두 측면을 모두 다룹니다. **앱이 무엇을 하는지**, 그리고 **어떻게
+만들어졌는지**입니다.
 
-## Product
+## 제품
 
-How the app behaves, written from the user's side. Start here if you want to know
-what a feature does before you go looking at how it does it.
+앱의 동작을 사용자 입장에서 설명합니다. 어떤 기능이 내부적으로 어떻게 구현됐는지
+보기 전에, 그 기능이 무엇을 하는지 알고 싶다면 여기서 시작하세요.
 
-- **[Overview](./product/overview.md)** — what PopOut is, who it is for, and the
-  shape of the app.
-- **[Marketplace](./product/marketplace.md)** — the browse → chat → meet → sold
-  loop, plus search, garage sales, and listing management.
-- **[Community & Rewards](./product/community-and-rewards.md)** — the community
-  feed, profile levels, coins, and gift-card vouchers.
+- **[개요](./product/overview.md)** — PopOut이 무엇이고, 누구를 위한 것이며, 앱이
+  어떤 구조인지.
+- **[마켓플레이스](./product/marketplace.md)** — 둘러보기 → 채팅 → 만남 → 판매 완료로
+  이어지는 흐름, 그리고 검색·창고 세일·게시글 관리.
+- **[커뮤니티와 리워드](./product/community-and-rewards.md)** — 동네 피드, 프로필
+  레벨, 코인, 그리고 기프트카드 상품권.
 
-## Engineering
+## 엔지니어링
 
-How the app is built, deployed, and kept working.
+앱이 어떻게 만들어지고, 배포되고, 정상 동작을 유지하는지 설명합니다.
 
-- **[Architecture](./engineering/architecture.md)** — the stack, and why each
-  piece was chosen.
-- **[Repo Structure](./engineering/repo-structure.md)** — directory layout,
-  dependency rules, and the feature-module contract.
-- **[Authentication](./engineering/authentication.md)** — phone + SMS OTP,
-  sessions, and where the security boundary actually sits.
-- **[Environments & Releases](./engineering/environments-and-releases.md)** —
-  staging vs. prod, build profiles, and over-the-air updates.
-- **[Testing & CI](./engineering/testing-and-ci.md)** — the test layers, what
-  blocks a merge, and coverage floors.
-- **[Conventions](./engineering/conventions.md)** — commits, translations, design
-  tokens, and screen types.
+- **[아키텍처](./engineering/architecture.md)** — 기술 스택과 각 선택의 이유.
+- **[저장소 구조](./engineering/repo-structure.md)** — 디렉터리 구성, 의존성 규칙,
+  기능 모듈 계약.
+- **[인증](./engineering/authentication.md)** — 휴대폰 번호 + SMS 인증번호, 세션,
+  그리고 실제 보안 경계가 어디에 있는지.
+- **[환경과 릴리스](./engineering/environments-and-releases.md)** — 스테이징과
+  프로덕션, 빌드 프로필, 무선 업데이트(OTA).
+- **[테스트와 CI](./engineering/testing-and-ci.md)** — 테스트 계층, 머지를 막는 것,
+  커버리지 하한선.
+- **[컨벤션](./engineering/conventions.md)** — 커밋, 번역, 디자인 토큰, 화면 유형.
 
-## Contributing to these docs
+## 이 문서에 기여하기
 
-[Getting Started](./getting-started/installation.md) covers running this site
-locally, and [Writing Docs](./getting-started/writing-docs.md) covers file
-layout, frontmatter, and how pages reach the sidebar.
+[시작하기](./getting-started/installation.md)는 이 사이트를 로컬에서 실행하는 방법을,
+[문서 작성](./getting-started/writing-docs.md)은 파일 구성·프런트매터·사이드바에
+페이지가 올라가는 방식을 다룹니다.
 
-Every page is a Markdown file under `docs/` in the
-[popout-docs repository](https://github.com/PopOut-Market/popout-docs) — edit a
-file, open a pull request, and the site redeploys when it merges to `main`.
+모든 페이지는
+[popout-docs 저장소](https://github.com/PopOut-Market/popout-docs)의 `docs/` 아래에
+있는 마크다운 파일입니다. 파일을 수정하고 풀 리퀘스트를 열면, `main`에 머지될 때
+사이트가 다시 배포됩니다.
 
-:::note[Source of truth]
+:::note[무엇이 원본인가]
 
-Product and engineering pages here summarise the app repository's own
-specifications. Where a detail matters operationally — an exact threshold, a
-project reference, a secret name — the app repo holds it, and this site
-deliberately does not.
+이 사이트의 제품·엔지니어링 페이지는 앱 저장소에 있는 명세를 요약한 것입니다.
+정확한 임계값, 프로젝트 참조값, 시크릿 이름처럼 운영에 직접 쓰이는 세부 사항은 앱
+저장소가 원본이며, 이 사이트에는 의도적으로 싣지 않습니다.
 
 :::

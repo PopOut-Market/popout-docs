@@ -1,29 +1,29 @@
 ---
 sidebar_position: 6
-title: Conventions
-description: Commit format, translations, design tokens, screen types, and UI states.
+title: 컨벤션
+description: 커밋 형식, 번역, 디자인 토큰, 화면 유형, UI 상태.
 ---
 
-# Conventions
+# 컨벤션
 
-## Commits
+## 커밋
 
 Conventional Commits: `<type>(<scope>): <subject>`
 
-- `<scope>` is optional. Use it when a change is scoped to a specific feature or
-  area (`listings`, `auth`, `ui`).
-- `<subject>` is imperative, lowercase, no full stop.
+- `<scope>`는 선택입니다. 변경이 특정 기능이나 영역에 한정될 때 씁니다
+  (`listings`, `auth`, `ui`).
+- `<subject>`는 명령형, 소문자, 마침표 없음.
 
-| Type | When |
+| 타입 | 언제 |
 | --- | --- |
-| `feat` | New user-visible feature or capability |
-| `fix` | Bug fix |
-| `refactor` | Neither adds a feature nor fixes a bug |
-| `perf` | Performance improvement |
-| `test` | Tests only |
-| `docs` | Documentation only |
-| `chore` | Tooling, dependencies, config, non-code changes |
-| `style` | Formatting only, no change in meaning |
+| `feat` | 사용자가 볼 수 있는 새 기능 |
+| `fix` | 버그 수정 |
+| `refactor` | 기능 추가도 버그 수정도 아닌 변경 |
+| `perf` | 성능 개선 |
+| `test` | 테스트만 |
+| `docs` | 문서만 |
+| `chore` | 도구, 의존성, 설정 등 코드가 아닌 변경 |
+| `style` | 포매팅만, 의미 변화 없음 |
 
 ```
 feat(listings): add infinite scroll to feed
@@ -32,188 +32,182 @@ refactor(ui): extract Pressable surface primitive
 chore: bump expo sdk to 55.0.1
 ```
 
-`build` and `ci` from the default Conventional Commits set are deliberately folded
-into `chore` — fewer types to remember, and the distinction does not earn its
-weight on a solo project.
+Conventional Commits 기본 집합의 `build`와 `ci`는 의도적으로 `chore`에 합쳤습니다.
+외울 타입이 줄고, 1인 프로젝트에서 그 구분은 값어치를 하지 못합니다.
 
-**No breaking-change marker** (`!` or a `BREAKING CHANGE:` footer). SemVer does
-not apply to a mobile app: "breaking" means a new binary release, not a
-commit-message flag.
+**호환성 파괴 표시(`!` 또는 `BREAKING CHANGE:` 푸터)는 쓰지 않습니다.** 모바일 앱에는
+SemVer가 적용되지 않습니다. 여기서 "파괴"는 커밋 메시지의 표식이 아니라 새 바이너리
+릴리스를 뜻합니다.
 
-### Branching
+### 브랜치
 
-Single-developer project — commit directly to `main`. Use a feature branch only
-for large or risky experiments that may be abandoned.
+1인 프로젝트이므로 `main`에 직접 커밋합니다. 기능 브랜치는 중단될 수도 있는 크거나
+위험한 실험에만 씁니다.
 
-### Body and footer
+### 본문과 푸터
 
-Optional. Use a body when the *reason* for a change is not obvious from the
-subject. Avoid restating what the diff already shows.
+선택입니다. 제목만으로 변경의 *이유*가 분명하지 않을 때 본문을 씁니다. diff가 이미
+보여 주는 것을 다시 적지 마세요.
 
-## Internationalisation
+## 국제화
 
-**All user-visible text must have a translation in every supported language.**
-Hardcoded user-facing strings are not permitted, and a missing translation in any
-locale is a **TypeScript build error**.
+**사용자가 볼 수 있는 모든 텍스트는 지원되는 모든 언어에 번역이 있어야 합니다.**
+사용자에게 보이는 문자열을 코드에 직접 쓰는 것은 허용되지 않으며, 어느 로케일에서든
+번역이 빠지면 **TypeScript 빌드 오류**가 납니다.
 
-### Supported languages
+### 지원 언어
 
-| Code | Language |
+| 코드 | 언어 |
 | --- | --- |
 | `en` | English |
-| `ko` | Korean (한국어) |
-| `zh-Hans` | Simplified Chinese (简体中文) |
-| `zh-Hant` | Traditional Chinese (繁體中文) |
-| `ja` | Japanese (日本語) |
-| `vi` | Vietnamese (Tiếng Việt) |
-| `fr` | French (Français) |
-| `es` | Spanish (Español) |
+| `ko` | 한국어 |
+| `zh-Hans` | 简体中文 |
+| `zh-Hant` | 繁體中文 |
+| `ja` | 日本語 |
+| `vi` | Tiếng Việt |
+| `fr` | Français |
+| `es` | Español |
 
-### The coverage rule
+### 완전성 규칙
 
-Every string a user can see exists in all 8 languages. That includes screen text,
-labels, buttons, placeholders, error and validation messages, system-generated
-content such as push notifications, and accessibility labels.
+사용자가 볼 수 있는 모든 문자열이 8개 언어 전부에 존재합니다. 화면 텍스트, 라벨, 버튼,
+플레이스홀더, 오류·검증 메시지, 푸시 알림 같은 시스템 생성 콘텐츠, 접근성 라벨이 모두
+포함됩니다.
 
-**A feature is not shippable until translations exist for every supported
-language**, and this is enforced at build time rather than by review.
+**모든 지원 언어에 번역이 갖춰지기 전까지 기능은 출시 가능하지 않으며**, 이것은 리뷰가
+아니라 빌드 시점에 강제됩니다.
 
-### Layout
+### 구성
 
 ```
 src/i18n/
 ├── locales/
-│   ├── en.ts          source of truth for keys
+│   ├── en.ts          키의 원본
 │   ├── ko.ts
 │   └── ...
-├── i18n.ts            i18next init + settings-store bridge
-├── types.d.ts         module augmentation for typed t() calls
+├── i18n.ts            i18next 초기화 + 설정 스토어 연결
+├── types.d.ts         타입 있는 t() 호출을 위한 모듈 확장
 └── useTranslation.ts
 ```
 
-Locale files are hand-written **TypeScript**, not JSON — that is what powers the
-typed-key and strict-completeness checks.
+로케일 파일은 JSON이 아니라 손으로 쓴 **TypeScript**입니다. 그래야 타입 있는 키와 엄격한
+완전성 검사가 가능합니다.
 
-### Key conventions
+### 키 규칙
 
-- Keys are flat and `snake_case`, prefixed by feature: `welcome_title`,
-  `welcome_start_hunt`, `common_cancel`. i18next's `keySeparator` is disabled, so
-  dots have no meaning.
-- `common_` prefixes strings shared across multiple screens.
-- `en.ts` is the type source of truth — `TranslationKey = keyof typeof en`, and
-  every other locale must satisfy `Record<keyof typeof en, string>`.
-- **Language labels are not translated.** `'English'` and `'한국어'` are endonyms
-  that must always appear in their own script, so a user who has not yet set their
-  language can still recognise their option.
+- 키는 평평한 `snake_case`이며 기능 이름을 접두사로 씁니다. `welcome_title`,
+  `welcome_start_hunt`, `common_cancel`. i18next의 `keySeparator`를 꺼 두었으므로 점에는
+  아무 의미가 없습니다.
+- 여러 화면에서 공유하는 문자열에는 `common_` 접두사를 씁니다.
+- `en.ts`가 타입의 원본입니다. `TranslationKey = keyof typeof en`이며, 다른 모든 로케일은
+  `Record<keyof typeof en, string>`을 만족해야 합니다.
+- **언어 이름은 번역하지 않습니다.** `'English'`와 `'한국어'`는 자기 언어로 자기를
+  가리키는 이름이며, 언어를 아직 설정하지 않은 사용자도 자기 선택지를 알아볼 수 있도록
+  언제나 원래 문자로 표시되어야 합니다.
 
-## Design tokens
+## 디자인 토큰
 
-The theme modules under `src/shared/theme/` are the code source of truth —
-`tokens.ts` for non-colour values, `palette.ts` for raw colour primitives, and
-`useThemeColors.ts` for semantic colours.
+`src/shared/theme/` 아래의 테마 모듈이 코드상의 원본입니다. 색이 아닌 값은 `tokens.ts`,
+원시 색상은 `palette.ts`, 의미론적 색상은 `useThemeColors.ts`에 있습니다.
 
-**Naming.** Dot-notation keys. Semantic tokens reference primitives by *intent*
-(`text`, not `gray.900`). Components consume **semantic tokens only**, never
-primitives directly.
+**이름 규칙.** 점 표기 키를 씁니다. 의미론적 토큰은 원시 값을 *의도*로 참조합니다
+(`gray.900`이 아니라 `text`). 컴포넌트는 **의미론적 토큰만** 쓰며 원시 값을 직접 쓰지
+않습니다.
 
-### Light mode only
+### 라이트 모드 전용
 
-The app has no dark-mode support. Do not add `isDark` branches or
-`useColorScheme` reads.
+앱에는 다크 모드 지원이 없습니다. `isDark` 분기나 `useColorScheme` 읽기를 추가하지
+마세요.
 
-### Brand colours
+### 브랜드 색상
 
-| Key | Value |
+| 키 | 값 |
 | --- | --- |
 | `brand.primary` | `#FF8C00` |
 | `brand.highlight` | `#00A6F4` |
 | `brand.dark` | `#CC3200` |
 | `brand.light` | `#FF6B3D` |
 
-### The surface stack
+### 표면 계층
 
-Surface roles form a neutral layering stack, and the separation between them is
-deliberate rather than incidental:
+표면 역할은 중립색 레이어 스택을 이루며, 그 간격은 우연이 아니라 의도된 것입니다.
 
-| Role | Sits |
+| 역할 | 위치 |
 | --- | --- |
-| `surface.base` | Cards — the topmost layer |
-| `surface.chrome` | Tab bar and header |
-| `background` | The screen root, underneath everything |
+| `surface.base` | 카드 — 가장 위 레이어 |
+| `surface.chrome` | 탭바와 헤더 |
+| `background` | 화면 바닥, 모든 것의 아래 |
 
-Use `surface.chrome` — not a raw neutral — for any chrome SVG fill.
+크롬 SVG를 채울 때는 원시 중립색이 아니라 `surface.chrome`을 쓰세요.
 
-The neutral ramp is **generated**, not hand-picked: a script produces it at the
-brand hue with zero chroma, giving pure grey with no brand tint bled into the
-neutrals, while retaining the shape so warmth could be reintroduced with a
-one-line change. Do not hand-edit the generated hexes — re-run the script.
+중립색 계열은 손으로 고른 것이 아니라 **생성된** 것입니다. 스크립트가 브랜드 색조에서
+채도 0으로 생성하므로, 중립색에 브랜드 색이 배어 들지 않은 순수한 회색이 나옵니다. 동시에
+형태를 유지하고 있어서 나중에 따뜻함을 다시 넣고 싶으면 한 줄만 바꾸면 됩니다. 생성된
+16진값을 손으로 고치지 말고 스크립트를 다시 돌리세요.
 
-## Screen types
+## 화면 유형
 
-**Every screen is exactly one of three types.** Identify yours before writing
-layout code — getting it wrong causes double padding, or content hidden behind the
-notch or home indicator.
+**모든 화면은 정확히 세 유형 중 하나입니다.** 레이아웃 코드를 쓰기 전에 어느 유형인지
+확인하세요. 잘못 고르면 패딩이 두 번 들어가거나, 노치나 홈 인디케이터 뒤로 내용이
+숨습니다.
 
-### Safe-area API
+### 세이프 에어리어 API
 
-**Use `useSafeAreaInsets()` exclusively. Never use `SafeAreaView`.**
+**`useSafeAreaInsets()`만 쓰고 `SafeAreaView`는 절대 쓰지 마세요.**
 
-The library labels `SafeAreaView` "preferred" for its native performance, but this
-project always needs token spacing added on top of the raw inset
-(`insets.top + spacing.lg`), which `SafeAreaView` cannot express without nesting
-wrappers. Picking one API everywhere keeps screens uniform and avoids the
-half-and-half ambiguity that caused inset bugs in v1.
+라이브러리는 네이티브 성능을 이유로 `SafeAreaView`를 "권장"이라고 표시하지만, 이
+프로젝트는 언제나 원시 인셋 위에 토큰 간격을 더해야 합니다(`insets.top + spacing.lg`).
+`SafeAreaView`는 래퍼를 겹치지 않고는 그것을 표현할 수 없습니다. 어디서나 하나의 API만
+쓰면 화면이 균일해지고, v1에서 인셋 버그를 일으킨 어중간한 혼용이 사라집니다.
 
-### The three types
+### 세 가지 유형
 
-All three root primitives live in `src/ui/Screen`.
+세 프리미티브 모두 `src/ui/Screen`에 있습니다.
 
-| Type | Chrome | Root primitive | Who owns the insets |
+| 유형 | 크롬 | 루트 프리미티브 | 인셋의 주인 |
 | --- | --- | --- | --- |
-| **1 — Standalone** | No header, no tab bar | `<StandaloneScreen>` | The screen owns both edges |
-| **2 — Tabbed** | Custom header **and** tab bar | `<TabbedScreen>` | Header owns top, tab bar owns bottom |
-| **3 — Stack detail** | Custom header, no tab bar | `<StackScreen>` | Header owns top, the screen owns bottom |
+| **1 — 독립** | 헤더도 탭바도 없음 | `<StandaloneScreen>` | 화면이 양쪽 가장자리를 소유 |
+| **2 — 탭** | 커스텀 헤더 **와** 탭바 | `<TabbedScreen>` | 헤더가 위, 탭바가 아래 |
+| **3 — 스택 상세** | 커스텀 헤더, 탭바 없음 | `<StackScreen>` | 헤더가 위, 화면이 아래 |
 
-Examples: Welcome, Auth, and Onboarding are Type 1. Home, Community, Chat, and Me
-are Type 2. Listing detail, Settings, and User profile are Type 3.
+예를 들어 웰컴·인증·온보딩은 유형 1, 홈·커뮤니티·채팅·나는 유형 2, 게시글 상세·설정·
+사용자 프로필은 유형 3입니다.
 
-**Never** call `useSafeAreaInsets()` for an edge a primitive or the shell already
-handles — double-applying gives you double padding. **Never** re-implement a root
-`<View>` by hand; if it diverges from the primitive, the divergence is a bug, not
-a feature.
+프리미티브나 셸이 이미 처리하는 가장자리에 대해 `useSafeAreaInsets()`를 **다시 호출하지
+마세요.** 두 번 적용하면 패딩이 두 배가 됩니다. 루트 `<View>`를 직접 다시 구현하지도
+**마세요.** 프리미티브와 달라졌다면 그것은 기능이 아니라 버그입니다.
 
-## Layout
+## 레이아웃
 
-Phone-only, portrait-only. The phone width range (roughly 360–430pt) is handled by
-Flexbox — **no breakpoints needed**. Where a component genuinely must adapt, use
-`useWindowDimensions()`, never `Dimensions.get('window')`, which does not react to
-dynamic changes.
+휴대폰 전용, 세로 전용입니다. 휴대폰 너비 범위(대략 360~430pt)는 Flexbox가 처리하므로
+**브레이크포인트가 필요 없습니다**. 컴포넌트가 정말로 적응해야 한다면
+`useWindowDimensions()`를 쓰고, 동적 변화에 반응하지 않는 `Dimensions.get('window')`는
+쓰지 마세요.
 
-- The root container needs `flex: 1` so it fills the screen on every phone size.
-- Never set a fixed `width` or `height` on a screen-level layout container. Use
-  flex, `width: '100%'`, or a percentage. Component-intrinsic dimensions — button
-  heights, icon sizes — are the exception, and carry a comment.
-- The section that should grow gets `flex: 1`; anchored elements such as CTAs and
-  footers get no flex and sit at their natural height.
-- Grid image slots reserve their aspect ratio (`aspect-square`) so layout does not
-  jump while images load.
+- 루트 컨테이너에는 `flex: 1`이 필요합니다. 그래야 모든 화면 크기에서 꽉 찹니다.
+- 화면 수준의 레이아웃 컨테이너에 고정 `width`나 `height`를 주지 마세요. flex,
+  `width: '100%'`, 또는 백분율을 쓰세요. 버튼 높이나 아이콘 크기처럼 컴포넌트 고유의
+  치수는 예외이며 주석을 답니다.
+- 늘어나야 하는 영역이 `flex: 1`을 갖고, CTA나 푸터처럼 고정된 요소는 flex 없이 자기
+  높이로 앉습니다.
+- 그리드 이미지 자리는 `aspect-square`로 비율을 미리 잡아 두어, 이미지가 로드되는 동안
+  레이아웃이 튀지 않게 합니다.
 
-## UI states
+## UI 상태
 
-These apply to any screen or list that fetches data.
+데이터를 가져오는 모든 화면과 목록에 적용됩니다.
 
-| State | Requirement |
+| 상태 | 요구 사항 |
 | --- | --- |
-| **Initial load** (`isPending`, no data) | Skeleton loaders matching the final layout shape — not a generic spinner |
-| **Refetch** (`isFetching`, data present) | Keep existing data visible; show only a subtle indicator |
-| **Empty** | Shown *only* when the response successfully returned zero items. Include a clear next step — never a dead-end illustration |
-| **Error** | Must include an `onRetry` that calls `refetch()` |
-| **Pagination error** | Keep existing items visible and show a small retry button in the list footer. Do not replace the whole list |
+| **최초 로딩** (`isPending`, 데이터 없음) | 일반 스피너가 아니라 최종 레이아웃 모양을 닮은 스켈레톤 |
+| **재조회** (`isFetching`, 데이터 있음) | 기존 데이터를 계속 보여 주고, 은은한 표시만 |
+| **비어 있음** | 응답이 성공적으로 0건을 반환했을 때*만*. 막다른 일러스트가 아니라 다음 행동을 함께 제시 |
+| **오류** | `refetch()`를 호출하는 `onRetry`가 반드시 있어야 함 |
+| **페이지네이션 오류** | 기존 항목을 계속 보여 주고 목록 하단에 작은 재시도 버튼. 목록 전체를 대체하지 말 것 |
 
 :::warning
 
-**Never render an empty state for a failed request.** It tells the user no data
-exists when in fact the request failed — which is a different problem with a
-different fix.
+**실패한 요청에 빈 상태를 렌더링하지 마세요.** 실제로는 요청이 실패한 것인데 사용자에게
+데이터가 없다고 말하는 셈이며, 이것은 원인도 해결책도 다른 별개의 문제입니다.
 
 :::

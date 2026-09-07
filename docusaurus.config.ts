@@ -9,7 +9,7 @@ const projectName = 'popout-docs';
 
 const config: Config = {
   title: 'PopOut Docs',
-  tagline: 'Documentation for PopOut Market',
+  tagline: 'PopOut Market 서비스 문서',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -45,19 +45,21 @@ const config: Config = {
   // `%%{init: {"layout": "elk"}}%%` directive. See src/mermaid-elk.ts.
   clientModules: ['./src/mermaid-elk.ts'],
 
-  // English and Korean. English is served at the site root; Korean at /ko/.
-  // Translated Markdown lives under
-  // i18n/ko/docusaurus-plugin-content-docs/current/, mirroring docs/ exactly —
-  // a file missing there falls back to its English original rather than 404ing.
+  // Korean is the default locale and is served at the site root; English at
+  // /en/. Docusaurus reads the DEFAULT locale from `docs/`, not from `i18n/`,
+  // so `docs/` holds the Korean source and the English translation lives under
+  // i18n/en/docusaurus-plugin-content-docs/current/, mirroring it exactly.
+  // Every page must exist in both: relative .md links resolve inside one
+  // locale tree, so a missing counterpart fails that locale's build.
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'ko'],
+    defaultLocale: 'ko',
+    locales: ['ko', 'en'],
     localeConfigs: {
-      en: {label: 'English'},
-      // The label is an endonym: it stays in its own script so a reader who
+      // Labels are endonyms: each stays in its own script so a reader who
       // cannot read the current language still recognises their option. Same
       // rule the app itself follows for its language menu.
       ko: {label: '한국어'},
+      en: {label: 'English'},
     },
   },
 
@@ -103,7 +105,7 @@ const config: Config = {
     navbar: {
       title: 'PopOut Docs',
       logo: {
-        alt: 'PopOut Docs Logo',
+        alt: 'PopOut Docs 로고',
         src: 'img/logo.svg',
       },
       items: [
@@ -111,7 +113,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Docs',
+          label: '문서',
         },
         {
           // The language switcher. Docusaurus renders it as a dropdown listing
@@ -130,20 +132,20 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: '문서',
           items: [
             {
-              label: 'Introduction',
+              label: '소개',
               to: '/',
             },
             {
-              label: 'Getting Started',
+              label: '시작하기',
               to: '/getting-started/installation',
             },
           ],
         },
         {
-          title: 'More',
+          title: '더 보기',
           items: [
             {
               label: 'GitHub',
@@ -152,7 +154,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} PopOut Market. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} PopOut Market. Docusaurus로 제작되었습니다.`,
     },
     prism: {
       theme: prismThemes.github,

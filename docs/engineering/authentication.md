@@ -1,165 +1,153 @@
 ---
 sidebar_position: 3
-title: Authentication
-description: Phone plus SMS one-time code, session storage, and where the security boundary actually sits.
+title: 인증
+description: 휴대폰 번호 + SMS 일회용 인증번호, 세션 저장, 그리고 실제 보안 경계가 있는 곳.
 ---
 
-# Authentication
+# 인증
 
-**Phone number + SMS one-time code.** Supabase Auth is the provider. There is no
-email, no password, and no social login.
+**휴대폰 번호 + SMS 일회용 인증번호.** 인증 제공자는 Supabase Auth입니다. 이메일도,
+비밀번호도, 소셜 로그인도 없습니다.
 
-Sign-up and sign-in are the same flow: the user enters a phone number, receives a
-code, and enters it. Supabase creates the user on first successful verification —
-there is no separate registration step.
+가입과 로그인은 같은 흐름입니다. 사용자가 휴대폰 번호를 입력하고, 인증번호를 받고,
+그것을 입력합니다. 첫 인증에 성공하는 순간 Supabase가 사용자를 생성하며, 별도의 회원가입
+단계는 없습니다.
 
-## The sign-in flow
+## 로그인 흐름
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant U as User
-    participant A as App
+    participant U as 사용자
+    participant A as 앱
     participant SO as send-otp
     participant SA as Supabase Auth
     participant H as send-sms-hook
-    participant P as SMS provider
+    participant P as SMS 제공사
 
-    U->>A: enters mobile number
+    U->>A: 휴대폰 번호 입력
     A->>SO: { phone }
 
     rect rgba(217,83,79,0.10)
-        Note over SO: Rate limits are charged first
-        SO->>SO: per-IP + per-phone buckets (hashed)
-        SO->>SO: AU-mobile format guard
+        Note over SO: 속도 제한을 먼저 차감한다
+        SO->>SO: IP별 + 번호별 버킷 (해시됨)
+        SO->>SO: 호주 휴대폰 형식 검사
     end
 
     SO->>SA: signInWithOtp(phone)
-    SA->>H: signed webhook carrying<br/>the rendered code
-    H->>P: REST dispatch
-    P-->>U: SMS · 6-digit code
+    SA->>H: 렌더링된 인증번호를 담은<br/>서명된 웹훅
+    H->>P: REST 전송
+    P-->>U: SMS · 6자리 인증번호
 
-    U->>A: enters code
+    U->>A: 인증번호 입력
     A->>SA: verifyOtp(phone, code)
-    SA-->>A: session · access + refresh token
-    A->>A: persist to expo-secure-store
+    SA-->>A: 세션 · 액세스 + 리프레시 토큰
+    A->>A: expo-secure-store에 저장
 ```
 
-Note the order inside the red block: **the buckets are charged before the body is
-parsed and before the format check runs.** A probe loop sending malformed requests
-still spends its own budget rather than getting free rejections.
+빨간 블록 안의 순서를 눈여겨보세요. **버킷은 요청 본문을 파싱하기 전에, 그리고 형식
+검사를 하기 전에 차감됩니다.** 잘못된 형식의 요청을 계속 보내는 탐색 루프도 공짜로
+거절당하는 대신 자기 예산을 그대로 소모합니다.
 
-Note also who generates the code. Supabase Auth does — `send-otp` never sees it,
-and `send-sms-hook` only couriers it. There is exactly one code lifecycle a user
-can trigger.
+누가 인증번호를 만드는지도 눈여겨보세요. Supabase Auth가 만듭니다. `send-otp`는 그것을
+아예 보지 못하고, `send-sms-hook`은 전달만 합니다. 사용자가 발생시킬 수 있는 인증번호
+수명 주기는 정확히 하나뿐입니다.
 
-## Why phone-only
+## 휴대폰 번호만 쓰는 이유
 
-SMS is the channel sellers already share with buyers in a marketplace like this,
-so it is not an extra hurdle. And a single auth channel cuts the abuse surface to
-**one dimension to monitor** rather than several.
+이런 형태의 마켓에서 판매자가 구매자와 이미 주고받는 수단이 문자이므로, 추가적인 장벽이
+아닙니다. 그리고 인증 경로가 하나면 감시해야 할 어뷰징 표면이 **한 축**으로 줄어듭니다.
 
-## SMS delivery
+## SMS 전송
 
-A third-party SMS provider handles delivery. Supabase Auth owns code generation,
-expiry, and verification; the app's **Send SMS Hook** edge function is a pure
-courier — it receives the already-rendered code from Supabase over a signed
-[Standard Webhooks](https://www.standardwebhooks.com/) request, dispatches it via
-the provider's REST API, and returns.
+외부 SMS 제공사가 전송을 담당합니다. 인증번호의 생성·만료·검증은 Supabase Auth가
+소유하고, 앱의 **Send SMS Hook** 엣지 함수는 순수한 전달자입니다. Supabase로부터 서명된
+[Standard Webhooks](https://www.standardwebhooks.com/) 요청으로 이미 만들어진 인증번호를
+받아, 제공사의 REST API로 문자를 보내고 끝냅니다.
 
-Two consequences worth knowing:
+알아 둘 만한 두 가지 결과가 있습니다.
 
-- **The hook URL embeds the Supabase project reference.** Each environment
-  configures its own hook URL, pointing at the function deployed to that project.
-  If a project is ever migrated, duplicated, or replaced, its hook URL must be
-  re-pointed.
-- **A single provider is intentional at current scale.** One set of secrets, one
-  billing surface, and the hook is single-shot per request anyway. A backup
-  provider is planned for roughly 1k DAU, or sooner if delivery rates drop —
-  most likely as a secondary provider behind the same hook with conditional
-  dispatch on primary failure.
+- **훅 URL에는 Supabase 프로젝트 참조값이 들어 있습니다.** 각 환경은 그 환경에 배포된
+  함수를 가리키는 자기 훅 URL을 설정합니다. 프로젝트를 이전하거나 복제하거나 교체하면
+  훅 URL을 다시 지정해야 합니다.
+- **제공사를 하나만 두는 것은 현재 규모에서 의도된 선택입니다.** 시크릿 한 벌, 청구
+  창구 하나면 되고, 훅은 어차피 요청당 한 번만 발사됩니다. 백업 제공사는 대략 DAU 1천
+  명 시점, 또는 전송률이 떨어지면 그보다 일찍 도입할 계획입니다. 형태는 같은 훅 뒤에
+  보조 제공사를 두고 1차 실패 시 조건부로 전환하는 쪽이 유력합니다.
 
-## Code parameters
+## 인증번호 파라미터
 
-| Setting | Value |
+| 항목 | 값 |
 | --- | --- |
-| Code length | 6 digits |
-| Expiry | 180 seconds |
+| 자릿수 | 6자리 |
+| 만료 | 180초 |
 
-These are configured in the Supabase dashboard **per project**, not in app code —
-each environment holds the same values, set independently.
+이 값들은 앱 코드가 아니라 Supabase 대시보드에서 **프로젝트별로** 설정합니다. 각 환경이
+같은 값을 갖되 따로 설정합니다.
 
-The 180-second window is wider than Supabase's 60-second minimum, to absorb
-carrier SMS latency without timing legitimate signups out. It is well under the
-5–10 minute industry default, which would create a larger replay window than this
-app needs.
+180초는 Supabase의 최소값 60초보다 넉넉합니다. 통신사 문자 지연을 흡수해서 정상적인
+가입이 시간 초과로 끊기지 않게 하기 위해서입니다. 동시에 업계 기본값인 5~10분보다는
+훨씬 짧아서, 이 앱에 필요한 것보다 넓은 재전송 공격 창을 만들지 않습니다.
 
-## Rate limiting and abuse defences
+## 속도 제한과 어뷰징 방어
 
-A `send-otp` edge function fronts `supabase.auth.signInWithOtp` and is the primary
-rate-limit layer.
+`send-otp` 엣지 함수가 `supabase.auth.signInWithOtp` 앞에 서서 1차 속도 제한 계층
+역할을 합니다.
 
-**Why it exists.** Supabase's built-in SMS rate limit is **project-global** — one
-bucket shared across all callers. A single attacker can drain it and lock out
-every user. The edge function adds **per-IP** and **per-phone** buckets so abuse is
-confined to the attacker's own budget.
+**왜 필요한가.** Supabase의 기본 SMS 속도 제한은 **프로젝트 전역**입니다. 모든 호출자가
+버킷 하나를 공유합니다. 공격자 한 명이 그것을 소진시켜 모든 사용자를 잠글 수 있습니다.
+엣지 함수는 **IP별**, **번호별** 버킷을 추가해 어뷰징을 공격자 자신의 예산 안에
+가둡니다.
 
-Both buckets are hashed, and both are evaluated **before** the request body is
-parsed and before the format check runs — so probe loops still spend budget rather
-than getting free rejections.
+두 버킷 모두 해시되어 있고, 둘 다 요청 본문을 파싱하기 **전에**, 형식 검사를 하기 전에
+평가됩니다. 그래서 탐색 루프는 공짜 거절을 받는 대신 예산을 소모합니다.
 
-The per-phone budget is sized to cover legitimate retry patterns (signup plus
-occasional re-login) while making bulk abuse against one number expensive. The
-per-IP budget is sized to tolerate shared NAT — cafés, universities, large
-workplaces — without locking out groups of legitimate users.
+번호별 예산은 정상적인 재시도 패턴(가입, 가끔의 재로그인)을 넉넉히 덮으면서 한 번호를
+겨냥한 대량 어뷰징은 비싸지도록 잡혀 있습니다. IP별 예산은 카페·대학·대형 사업장 같은
+공유 NAT 환경을 견디면서도 정상 사용자 집단을 잠그지 않도록 잡혀 있습니다.
 
-**Country whitelist.** Australian mobiles only; anything else is rejected with
-`INVALID_PHONE_FORMAT`. This eliminates the SMS-pumping attack vector, which
-targets premium-rate international numbers — which is why no CAPTCHA is wired
-today.
+**국가 화이트리스트.** 호주 휴대폰만 허용하고 나머지는 `INVALID_PHONE_FORMAT`으로
+거절합니다. 이것으로 프리미엄 요율 국제번호를 노리는 SMS 펌핑 공격 경로가 사라지며,
+그래서 현재 별도의 CAPTCHA를 붙이지 않았습니다.
 
-Supabase's own per-project SMS rate limits sit beneath all of this as a hard cap
-if the edge function is ever bypassed.
+Supabase 자체의 프로젝트별 SMS 속도 제한이 이 모든 것 아래에 하드 캡으로 깔려 있어,
+엣지 함수가 우회되더라도 최종 방어선 역할을 합니다.
 
-## Client session storage
+## 클라이언트 세션 저장
 
-Sessions are persisted with **`expo-secure-store`**, wired into the Supabase JS
-client through its `auth.storage` option.
+세션은 **`expo-secure-store`** 에 저장되며, Supabase JS 클라이언트의 `auth.storage`
+옵션으로 연결됩니다.
 
-:::danger[Never use AsyncStorage for tokens]
+:::danger[토큰에 AsyncStorage를 절대 쓰지 마세요]
 
-`AsyncStorage` writes values in plaintext to disk. SecureStore uses the OS
-keychain on iOS and Keystore on Android.
+`AsyncStorage`는 값을 평문으로 디스크에 씁니다. SecureStore는 iOS에서는 키체인,
+Android에서는 Keystore를 사용합니다.
 
 :::
 
-**Token refresh.** `autoRefreshToken` is on. An `AppState` listener calls
-`startAutoRefresh` on foreground and `stopAutoRefresh` on background, per
-Supabase's React Native guidance — refresh stays on a real timer while the app is
-foregrounded, and redundant refreshes are avoided while it is backgrounded.
+**토큰 갱신.** `autoRefreshToken`이 켜져 있습니다. `AppState` 리스너가 포그라운드에서
+`startAutoRefresh`를, 백그라운드에서 `stopAutoRefresh`를 호출합니다. Supabase의 React
+Native 가이드를 따른 것으로, 앱이 화면에 있는 동안에는 갱신이 실제 타이머로 돌고
+백그라운드에서는 불필요한 갱신을 하지 않습니다.
 
-**Sign-out scope.** The default is `'global'`, which revokes all refresh tokens
-server-side. `'local'` is reserved for the post-account-deletion path, where the
-server has already revoked the session.
+**로그아웃 범위.** 기본값은 `'global'`이며 서버의 모든 리프레시 토큰을 무효화합니다.
+`'local'`은 서버가 이미 세션을 무효화한 계정 삭제 이후 경로에만 씁니다.
 
-## The security boundary
+## 보안 경계
 
-**Client-side auth is not a security boundary.** It decides what UI to show. It
-decides nothing about what data a request may reach.
+**클라이언트 측 인증은 보안 경계가 아닙니다.** 그것은 어떤 UI를 보여 줄지 정할 뿐,
+요청이 어떤 데이터에 닿을 수 있는지에 대해서는 아무것도 정하지 않습니다.
 
-Enforcement is server-side, and there are two mechanisms:
+강제는 서버에서 이뤄지며 두 가지 수단이 있습니다.
 
-1. **Row-level security.** Any table containing user-scoped data restricts access
-   through RLS policies, written against `(SELECT auth.uid())`.
-2. **Edge functions verify the JWT** before acting on a request.
+1. **행 수준 보안(RLS).** 사용자별 데이터를 담은 모든 테이블은
+   `(SELECT auth.uid())` 기준으로 작성된 RLS 정책으로 접근을 제한합니다.
+2. **엣지 함수가 JWT를 검증한** 뒤에 요청을 처리합니다.
 
-A feature is not secure because the app hides a button. It is secure because the
-row is unreachable.
+기능이 안전한 이유는 앱이 버튼을 숨겨서가 아니라, 그 행에 닿을 수 없기 때문입니다.
 
-## Secrets
+## 시크릿
 
-SMS-provider credentials and the hook signing secret live in Supabase Secrets and
-are read from edge functions at runtime. **None of them is ever in the app
-bundle.** See
-[Environments & Releases](./environments-and-releases.md#secrets-and-configuration)
-for how they are set and rotated.
+SMS 제공사 자격 증명과 훅 서명 시크릿은 Supabase Secrets에 있으며 엣지 함수가 실행
+시점에 읽습니다. **그중 어느 것도 앱 번들에 들어가지 않습니다.** 설정과 교체 방법은
+[환경과 릴리스](./environments-and-releases.md#시크릿과-설정)를 보세요.

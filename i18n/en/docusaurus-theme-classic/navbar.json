@@ -4,12 +4,12 @@
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "PopOut Docs 로고",
+    "message": "PopOut Docs Logo",
     "description": "The alt text of navbar logo"
   },
-  "item.label.Docs": {
-    "message": "문서",
-    "description": "Navbar item with label Docs"
+  "item.label.문서": {
+    "message": "Docs",
+    "description": "Navbar item with label 문서"
   },
   "item.label.GitHub": {
     "message": "GitHub",

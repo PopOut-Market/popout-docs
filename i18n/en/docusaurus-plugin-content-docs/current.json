@@ -1,0 +1,30 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docsSidebar.category.제품": {
+    "message": "Product",
+    "description": "The label for category '제품' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.제품.link.generated-index.description": {
+    "message": "What the PopOut app does, described from the user's side.",
+    "description": "The generated-index page description for category '제품' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.엔지니어링": {
+    "message": "Engineering",
+    "description": "The label for category '엔지니어링' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.엔지니어링.link.generated-index.description": {
+    "message": "How PopOut is built, deployed, and kept working.",
+    "description": "The generated-index page description for category '엔지니어링' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.시작하기": {
+    "message": "Getting Started",
+    "description": "The label for category '시작하기' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.시작하기.link.generated-index.description": {
+    "message": "Run the docs site locally and add your first page.",
+    "description": "The generated-index page description for category '시작하기' in sidebar 'docsSidebar'"
+  }
+}

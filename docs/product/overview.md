@@ -1,76 +1,75 @@
 ---
 sidebar_position: 1
-title: Overview
-description: What PopOut Market is, who it serves, and how the app is laid out.
+title: 개요
+description: PopOut Market이 무엇이고, 누구를 위한 것이며, 앱이 어떻게 구성되어 있는지.
 ---
 
-# Overview
+# 개요
 
-PopOut Market is a **hyperlocal consumer-to-consumer marketplace**. People list
-second-hand items from their own neighbourhood, buyers find them in a feed ranked
-by proximity and freshness, the two sides agree terms in chat, and the handover
-happens face to face at an agreed public spot.
+PopOut Market은 **하이퍼로컬 C2C(개인 간) 중고 거래 마켓**입니다. 사람들이 자기
+동네에서 중고 물건을 올리면, 구매자는 거리와 최신성으로 정렬된 피드에서 그것을 찾고,
+채팅으로 조건을 합의한 뒤, 약속한 공공장소에서 직접 만나 물건을 주고받습니다.
 
-"Hyperlocal" is the load-bearing word. Every surface in the app is anchored to a
-**suburb**: the feed you see, the community posts you read, and the meetup spots
-you are offered are all scoped to where you are, not to a national catalogue.
+여기서 핵심은 "하이퍼로컬"이라는 말입니다. 앱의 모든 화면은 **동네(suburb)** 를
+기준으로 동작합니다. 보이는 피드도, 읽는 커뮤니티 글도, 제안되는 만남 장소도 모두
+전국 단위 카탈로그가 아니라 사용자가 있는 곳을 기준으로 좁혀집니다.
 
-## Status and market
+## 서비스 현황
 
 | | |
 | --- | --- |
-| Platforms | iOS and Android (phone only — no tablet, no landscape) |
-| Market | Melbourne, Australia |
-| Live since | June 2026 |
-| Sign-in | Australian mobile number + SMS one-time code |
-| Languages | 8 — English, Korean, Simplified and Traditional Chinese, Japanese, Vietnamese, French, Spanish |
+| 플랫폼 | iOS, Android (휴대폰 전용 — 태블릿·가로 모드 미지원) |
+| 서비스 지역 | 호주 멜버른 |
+| 정식 출시 | 2026년 6월 |
+| 로그인 | 호주 휴대폰 번호 + SMS 일회용 인증번호 |
+| 지원 언어 | 8개 — 영어, 한국어, 중국어 간체·번체, 일본어, 베트남어, 프랑스어, 스페인어 |
 
-Sign-in is phone-only by design. No email, no password, no social login. SMS is
-the channel sellers already share with buyers in a marketplace like this, and a
-single auth channel keeps the abuse surface to one dimension.
+로그인이 휴대폰 번호 전용인 것은 의도된 설계입니다. 이메일도, 비밀번호도, 소셜
+로그인도 없습니다. 이런 형태의 마켓에서 판매자가 구매자와 이미 주고받는 수단이
+문자이고, 인증 경로를 하나로 두면 감시해야 할 어뷰징 표면이 한 축으로 줄어듭니다.
 
-## What you can do without signing in
+## 로그인 없이 할 수 있는 것
 
-Browsing is open. An anonymous visitor can scroll the home feed, change suburbs,
-apply filters, open a listing's full detail, and read the community feed. The
-experience is visually identical to a signed-in one.
+둘러보기는 열려 있습니다. 로그인하지 않은 방문자도 홈 피드를 스크롤하고, 동네를
+바꾸고, 필터를 걸고, 게시글 상세를 열어 보고, 커뮤니티 피드를 읽을 수 있습니다.
+화면상으로는 로그인한 사용자와 동일합니다.
 
-Sign-in is required only to **act**:
+로그인은 **행동할 때만** 필요합니다.
 
-- Save a listing
-- Start a chat with a seller
-- Create a listing or a community post
-- Like or reply to a community post
-- Report or block another member
+- 게시글 저장
+- 판매자와 채팅 시작
+- 게시글이나 커뮤니티 글 작성
+- 커뮤니티 글에 좋아요·댓글
+- 다른 회원 신고·차단
 
-Tapping one of those as a guest raises a sign-in prompt rather than failing
-silently.
+로그인하지 않은 상태에서 이 중 하나를 누르면, 조용히 실패하는 대신 로그인 안내가
+뜹니다.
 
-## The five tabs
+## 다섯 개의 탭
 
-| Tab | What it holds |
+| 탭 | 내용 |
 | --- | --- |
-| **Home** | The shopping feed for the selected suburb — a two-column grid of listing cards, ranked by score |
-| **Community** | A single-column reading feed of neighbourhood posts, newest first |
-| **Create** (centre) | The button that opens either the sell flow or the community composer |
-| **Chat** | Two sub-tabs, Buy and Sell, each a list of conversations |
-| **Me** | Profile, listings, saved items, rewards, vouchers, and settings |
+| **홈** | 선택한 동네의 판매 피드 — 점수 순으로 정렬된 2열 카드 그리드 |
+| **커뮤니티** | 동네 글을 최신순으로 보여 주는 1열 읽기 피드 |
+| **만들기** (가운데) | 판매 등록 또는 커뮤니티 글쓰기를 여는 버튼 |
+| **채팅** | 구매·판매 두 개의 하위 탭, 각각 대화 목록 |
+| **나** | 프로필, 내 게시글, 저장한 항목, 리워드, 상품권, 설정 |
 
-## Suburb selection
+## 동네는 어떻게 정해지나
 
-The suburb shown on Home is resolved in this order:
+홈에 표시되는 동네는 다음 순서로 결정됩니다.
 
-1. A signed-in member's **verified suburb**, if it is still in the active suburb roster.
-2. Otherwise, the **last suburb browsed** on this device.
-3. Otherwise, **Melbourne CBD**.
+1. 로그인한 회원의 **인증된 동네** — 단, 현재 운영 중인 동네 목록에 남아 있을 때.
+2. 그렇지 않으면 이 기기에서 **마지막으로 둘러본 동네**.
+3. 그것도 없으면 **멜버른 CBD**.
 
-Verification expiry never gates browsing. It gates *actions* — starting a chat,
-creating a post — and nothing else. Changing the suburb from the header opens a
-full-screen picker with a searchable alphabetical list and a map; picking only
-previews, and nothing is written until you confirm.
+인증 만료는 둘러보기를 막지 않습니다. 만료가 막는 것은 채팅 시작이나 글 작성 같은
+*행동*뿐입니다. 헤더에서 동네를 바꾸면 검색 가능한 가나다순 목록과 지도가 있는
+전체 화면 선택기가 열립니다. 선택은 미리보기일 뿐이며, 확인을 누르기 전까지는
+아무것도 저장되지 않습니다.
 
-## Where to go next
+## 다음으로 볼 것
 
-- The buy-and-sell loop in detail → **[Marketplace](./marketplace.md)**
-- The social and reward layer → **[Community & Rewards](./community-and-rewards.md)**
-- How any of it is built → **[Architecture](../engineering/architecture.md)**
+- 사고파는 흐름 자세히 → **[마켓플레이스](./marketplace.md)**
+- 소셜·리워드 계층 → **[커뮤니티와 리워드](./community-and-rewards.md)**
+- 이 모든 것이 어떻게 만들어졌는지 → **[아키텍처](../engineering/architecture.md)**

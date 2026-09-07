@@ -1,51 +1,48 @@
 ---
 sidebar_position: 5
-title: Testing & CI
-description: The test layers, what blocks a merge, coverage floors, and the pre-commit gate.
+title: 테스트와 CI
+description: 테스트 계층, 머지를 막는 것, 커버리지 하한선, 그리고 커밋 전 게이트.
 ---
 
-# Testing & CI
+# 테스트와 CI
 
-## Stack
+## 도구
 
 | | |
 | --- | --- |
-| Runner | Jest with the `jest-expo` preset |
-| Component testing | `@testing-library/react-native` |
-| Assertions | Jest built-ins plus `@testing-library/jest-native` matchers |
-| Performance | Reassure (`npm run test:perf`) |
+| 러너 | `jest-expo` 프리셋을 쓰는 Jest |
+| 컴포넌트 테스트 | `@testing-library/react-native` |
+| 단언 | Jest 기본 + `@testing-library/jest-native` 매처 |
+| 성능 | Reassure (`npm run test:perf`) |
 
-No Vitest — it is not supported on React Native.
+Vitest는 쓰지 않습니다. React Native에서 지원되지 않습니다.
 
-**There is no automated E2E layer.** A Maestro suite existed from May to July 2026
-and was retired: one recorded run in its lifetime, flows that had gone stale
-against the shipped app, and CI secrets that were never configured. Manual smoke
-testing is the integration verification step for every release, binaries included.
-The bar for bringing E2E back is specific: *a real bug ships that a flow would
-have caught.*
+**자동화된 E2E 계층은 없습니다.** Maestro 스위트가 2026년 5월부터 7월까지 있었지만
+폐기했습니다. 존속 기간 동안 기록된 실행이 한 번뿐이었고, 플로우가 실제 앱과 어긋나
+있었으며, CI 시크릿은 끝내 설정되지 않았습니다. 지금은 릴리스마다(바이너리 포함) 수동
+스모크 테스트가 통합 검증 단계 역할을 합니다. E2E를 되살릴 기준은 명확합니다.
+*플로우가 잡아냈을 실제 버그가 배포되는 일이 벌어질 때*입니다.
 
-## The two layers
+## 두 개의 계층
 
-### Unit tests
+### 단위 테스트
 
-Pure functions, utilities, and hooks with isolated logic. No rendering.
+순수 함수, 유틸리티, 독립적인 로직을 가진 훅. 렌더링은 하지 않습니다.
 
-### Component tests
+### 컴포넌트 테스트
 
-UI primitives (`src/ui/`) and feature components
-(`src/features/<name>/components/`). Render with React Native Testing Library,
-interact through queries (`getByRole`, `getByText`), and assert on **what the user
-sees**.
+UI 프리미티브(`src/ui/`)와 기능 컴포넌트(`src/features/<name>/components/`)를
+대상으로 합니다. React Native Testing Library로 렌더링하고, 쿼리(`getByRole`,
+`getByText`)로 조작하며, **사용자가 보는 것**에 대해 단언합니다.
 
-- Do not mount full screens with navigation in a component test — that is what
-  smoke testing is for.
-- Mock network calls at the `fetch` or Supabase-client boundary, **never** inside
-  the component under test.
+- 컴포넌트 테스트에서 내비게이션을 포함한 전체 화면을 마운트하지 마세요. 그것은 스모크
+  테스트의 역할입니다.
+- 네트워크 호출은 `fetch`나 Supabase 클라이언트 경계에서 목킹하고, 테스트 대상
+  컴포넌트 **안에서는 절대** 하지 마세요.
 
-## File location
+## 파일 위치
 
-Tests are co-located with the code under test. There is no top-level `__tests__/`
-folder.
+테스트는 대상 코드 옆에 둡니다. 최상위 `__tests__/` 폴더는 없습니다.
 
 ```
 src/ui/Button.tsx
@@ -55,130 +52,123 @@ src/features/listings/hooks/useListingFilter.ts
 src/features/listings/hooks/useListingFilter.test.ts
 ```
 
-## What to test — and what not to
+## 무엇을 테스트하고 무엇을 하지 않는가
 
-**Do test:**
+**테스트할 것:**
 
-- Logic that can break silently — reducers, sort and filter helpers, formatting,
-  validation.
-- Component behaviour users depend on — a button calls its handler, a form shows
-  an error when a required field is empty, a list renders the expected number of
-  rows.
+- 조용히 깨질 수 있는 로직 — 리듀서, 정렬·필터 헬퍼, 포매팅, 검증.
+- 사용자가 의존하는 컴포넌트 동작 — 버튼이 핸들러를 호출하는지, 필수 항목이 비었을 때
+  폼이 오류를 보여 주는지, 목록이 예상한 개수의 행을 렌더링하는지.
 
-**Do not test:**
+**테스트하지 않을 것:**
 
-- Styling, layout, colours, or specific token values. Those are covered by visual
-  review, not by assertions.
-- Third-party library internals.
-- Trivial getters or one-line passthroughs.
+- 스타일, 레이아웃, 색상, 특정 토큰 값. 이것들은 단언이 아니라 시각적 리뷰로 봅니다.
+- 서드파티 라이브러리의 내부 동작.
+- 사소한 게터나 한 줄짜리 위임 함수.
 
-## Conventions
+## 컨벤션
 
-- One `describe` per unit under test; one `it` per behaviour.
-- `it` names read as sentences: `it('disables submit when email is empty')`, not
-  `it('test 1')`.
-- No snapshot tests, unless there is a specific reason documented in the file.
+- 테스트 대상 하나당 `describe` 하나, 동작 하나당 `it` 하나.
+- `it` 이름은 문장처럼 읽히게 씁니다. `it('test 1')`이 아니라
+  `it('disables submit when email is empty')`.
+- 스냅샷 테스트는 파일에 구체적인 이유를 적어 둔 경우가 아니면 쓰지 않습니다.
 
-## Test projects
+## 테스트 프로젝트
 
-Jest is configured as several named projects, run selectively:
+Jest는 이름이 붙은 여러 프로젝트로 구성되어 있고 선택적으로 실행합니다.
 
-| Project | Covers |
+| 프로젝트 | 대상 |
 | --- | --- |
-| `unit` | `src/**/*.test.ts` in a Node environment |
-| `rn` | `src/**/*.test.tsx` and `app/**/*.test.tsx` under `jest-expo` |
-| `edge` | Deno edge-function tests |
-| `integration` | Opt-in tests that talk to a real Supabase project |
+| `unit` | Node 환경의 `src/**/*.test.ts` |
+| `rn` | `jest-expo` 위의 `src/**/*.test.tsx`, `app/**/*.test.tsx` |
+| `edge` | Deno 엣지 함수 테스트 |
+| `integration` | 실제 Supabase 프로젝트에 접속하는 선택적 테스트 |
 
 ```bash
-npm test                    # everything
-npm run test:coverage       # unit + rn + edge, with the coverage gate
-npm run test:integration    # requires SUPABASE_INTEGRATION_TEST=1
-npm run test:perf           # Reassure render-performance measurement
+npm test                    # 전부
+npm run test:coverage       # unit + rn + edge, 커버리지 게이트 포함
+npm run test:integration    # SUPABASE_INTEGRATION_TEST=1 필요
+npm run test:perf           # Reassure 렌더 성능 측정
 ```
 
-## Continuous integration
+## 지속적 통합
 
-Three workflows. Everything that can block a merge runs on pull requests;
-everything slow or stateful runs on a schedule.
+워크플로는 세 개입니다. 머지를 막을 수 있는 것은 모두 풀 리퀘스트에서 돌고, 느리거나
+상태를 갖는 것은 일정에 따라 돕니다.
 
-| Workflow | Trigger | Blocking? |
+| 워크플로 | 트리거 | 머지를 막나? |
 | --- | --- | --- |
-| `ci.yml` | Every PR and push to `main` | Yes |
-| `security.yml` | Every PR and push to `main`, plus weekly | Yes |
-| `deps.yml` | Weekly, manual | No — report only |
+| `ci.yml` | 모든 PR과 `main` 푸시 | 예 |
+| `security.yml` | 모든 PR과 `main` 푸시, 그리고 주간 | 예 |
+| `deps.yml` | 주간, 수동 | 아니요 — 보고만 |
 
 ### `ci.yml`
 
-Jobs run in parallel:
+작업들이 병렬로 돕니다.
 
-**`quality`** — typecheck → lint bans → ESLint/SonarJS → `madge --circular` →
-Jest with the coverage gate. Coverage thresholds live in `package.json`, so
-`npm run test:coverage` locally enforces exactly what CI enforces.
+**`quality`** — 타입 검사 → 금지 패턴 검사 → ESLint/SonarJS → `madge --circular` →
+커버리지 게이트가 붙은 Jest. 커버리지 임계값이 `package.json`에 있어서,
+`npm run test:coverage`가 로컬에서 CI와 정확히 같은 기준을 강제합니다.
 
-**`bundle-size`** — exports the production JS bundle for both platforms and fails
-if either exceeds the budget in `.bundle-budget.json`. The bundle is what every
-user downloads on first launch and re-downloads on every OTA update, and it is
-parsed on the JS thread before the first screen paints. Raising the budget is a
-deliberate act with its own command, not a silent drift.
+**`bundle-size`** — 두 플랫폼의 프로덕션 JS 번들을 뽑아, 어느 쪽이든
+`.bundle-budget.json`의 예산을 넘으면 실패시킵니다. 번들은 모든 사용자가 첫 실행에
+내려받고 OTA 업데이트마다 다시 내려받는 것이며, 첫 화면이 그려지기 전에 JS 스레드에서
+파싱됩니다. 예산을 올리는 것은 조용한 방치가 아니라 전용 명령으로 하는 의도적 행위입니다.
 
-### Coverage floors
+### 커버리지 하한선
 
-| Metric | Floor |
+| 지표 | 하한 |
 | --- | --- |
-| Statements | 80% |
-| Branches | 80% |
-| Lines | 80% |
-| Functions | 75% |
+| 구문 | 80% |
+| 분기 | 80% |
+| 라인 | 80% |
+| 함수 | 75% |
 
-The floors sit **below** the measured values on purpose. The gate is there to
-block *regression*, not to block work that has nothing to do with the gap.
-`functions` is the one metric under target; the floor is ratcheted up each time it
-clears a new band.
+하한선은 실제 측정값보다 **아래**에 일부러 둡니다. 이 게이트의 목적은 *퇴행*을 막는
+것이지, 그 격차와 무관한 작업을 막는 것이 아닙니다. `functions`가 유일하게 목표에
+못 미치는 지표이며, 한 구간을 넘길 때마다 하한을 올립니다.
 
-:::warning[Worker limits on the coverage step are load-bearing]
+:::warning[커버리지 단계의 워커 제한은 반드시 지켜야 합니다]
 
-`--maxWorkers=2 --workerIdleMemoryLimit=1G` on the coverage step is not tuning.
-Unbounded, the `jest-expo` workers thrash memory badly enough that the suite once
-ran **64+ minutes without finishing**; bounded, it completes in around 13. If the
-coverage job ever hits its timeout, check this first.
+커버리지 단계의 `--maxWorkers=2 --workerIdleMemoryLimit=1G`는 미세 조정이 아닙니다.
+제한을 풀면 `jest-expo` 워커가 메모리를 심하게 밟아 대서, 예전에 스위트가 **64분이 넘도록
+끝나지 않은** 적이 있습니다. 제한을 걸면 약 13분에 끝납니다. 커버리지 작업이 타임아웃에
+걸리면 이것부터 확인하세요.
 
 :::
 
-## The pre-commit gate
+## 커밋 전 게이트
 
-This is a single-developer project that commits directly to `main`, so the
-pre-commit hooks are the safety net a PR review and CI would normally provide:
+이 프로젝트는 1인 개발이며 `main`에 직접 커밋합니다. 그래서 커밋 전 훅이 보통 PR
+리뷰와 CI가 제공했을 안전망 역할을 합니다.
 
-- Typecheck
-- Lint bans
-- Dependency-cycle check (`madge --circular`)
-- `lint-staged` — ESLint `--fix` and Prettier on staged files
+- 타입 검사
+- 금지 패턴 검사
+- 의존성 순환 검사 (`madge --circular`)
+- `lint-staged` — 스테이징된 파일에 ESLint `--fix`와 Prettier
 
-Skipping them with `--no-verify` removes the only safety net this workflow has.
+`--no-verify`로 건너뛰는 것은 이 작업 방식에 남은 유일한 안전망을 없애는 일입니다.
 
-## Scenario maps
+## 시나리오 맵
 
-Each feature's implementation document carries a map of scenario → test. A
-dedicated check validates every row of that map against what Jest actually runs,
-using the ancestry Jest reports as the oracle:
+각 기능의 구현 문서에는 시나리오 → 테스트 대응표가 들어 있습니다. 전용 검사 도구가 그
+표의 모든 행을 Jest가 실제로 실행하는 것과 대조하며, Jest가 보고하는 상위 구조를
+판단 근거로 씁니다.
 
 ```bash
 npm run check:scenario-map -- <feature>
 ```
 
-**Why the oracle is Jest and not a grep.** Three earlier versions of this check
-each passed a row that was wrong — matching a describe string anywhere in a file
-(which passes on a component name), matching it as a real `describe()` call (which
-passes when the describe is real but is not that test's parent), and skipping any
-row containing a template placeholder (which passed a row whose file, describe, and
-test were all invented). One version silently *dropped* a malformed row, which is
-precisely the defect the map exists to catch. Only the ancestry Jest reports can
-tell a real-but-wrong parent from the right one.
+**판단 근거가 grep이 아니라 Jest인 이유.** 이 검사의 이전 세 버전은 각각 잘못된 행을
+통과시켰습니다. 파일 어디에서든 describe 문자열을 찾는 방식(컴포넌트 이름에도 걸림),
+실제 `describe()` 호출로 찾는 방식(describe는 진짜지만 그 테스트의 부모가 아닐 때 통과),
+템플릿 자리표시자가 들어간 행을 건너뛰는 방식(파일·describe·테스트가 모두 지어낸 행을
+통과)이 그것입니다. 한 버전은 형식이 깨진 행을 조용히 *누락*시켰는데, 그것이야말로 이
+표가 잡아내려는 결함입니다. 진짜지만 잘못된 부모와 올바른 부모를 구분할 수 있는 것은
+Jest가 보고하는 상위 구조뿐입니다.
 
-The current check also counts declared rows against parsed rows, resolves
-`it.each` templates against their real expansions, and refuses any row bound to a
-skipped, todo, or failing test.
+현재 버전은 선언된 행 수와 파싱된 행 수를 대조하고, `it.each` 템플릿을 실제 확장 결과와
+맞춰 보며, 건너뛰거나 todo이거나 실패하는 테스트에 묶인 행을 거부합니다.
 
-It is a full Jest run, so it is not wired into pre-commit. Invoke it when a map
-row is added or renamed, or when a test moves between `describe` blocks.
+전체 Jest 실행이므로 커밋 전 훅에는 연결되어 있지 않습니다. 표에 행을 추가하거나
+이름을 바꿀 때, 또는 테스트가 `describe` 블록 사이를 옮겨 갈 때 직접 실행하세요.
