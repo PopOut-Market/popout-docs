@@ -51,6 +51,10 @@ How the app is built, deployed, and kept working.
   may diverge, and how to split them.
 - **[Accessibility](./engineering/accessibility.md)** — screen-reader labels,
   roles and states, font scaling, contrast thresholds.
+- **[Metrics](./engineering/metrics.md)** — the counting rules, the two sources,
+  and the event ledger.
+- **[Errors & Recovery](./engineering/error-recovery.md)** — three kinds of failure
+  and the handling each one gets.
 
 ## Business
 

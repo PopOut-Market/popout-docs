@@ -30,6 +30,93 @@ migrations. That file is the source of truth when checking the schema.
 
 :::
 
+## Domain map
+
+Around seventy tables fall into seven domains. **`profiles` sits at the centre and
+almost everything else hangs off it.**
+
+```mermaid
+%%{init: {"layout": "elk"}}%%
+flowchart TB
+    ref["Reference data<br/>suburbs · categories<br/>app_config · guide_shops"]
+    acc["Accounts<br/>profiles · blocked_users<br/>banned_phone_numbers"]
+
+    sell["Listings<br/>posts · post_i18n · post_photos<br/>post_interests · post_reservations<br/>transactions · trade_reviews"]
+    chat["Chat<br/>conversations · messages"]
+    comm["Community<br/>community_posts · _replies<br/>_likes · _polls"]
+    rew["Rewards<br/>reward_coin_ledger · reward_vouchers<br/>member_level_state"]
+
+    ops["Operations<br/>notifications · *_reports<br/>*_restrictions · *_appeals"]
+    queue["Queues<br/>post_translation_queue<br/>meili_sync_queue"]
+
+    ref --> acc
+    ref --> sell
+    acc --> sell
+    acc --> comm
+    acc --> rew
+    sell --> chat
+    sell --> queue
+    comm --> queue
+    sell --> ops
+    comm --> ops
+    acc --> ops
+    sell --> rew
+    comm --> rew
+
+    classDef base fill:#8b7cc822,stroke:#8b7cc8,stroke-width:2px
+    classDef core fill:#ff8c0022,stroke:#e07b00,stroke-width:2px
+    classDef feat fill:#22c55e22,stroke:#35a06a,stroke-width:2px
+    classDef sys fill:#00a6f422,stroke:#2f8fd0,stroke-width:2px
+
+    class ref base
+    class acc core
+    class sell,chat,comm,rew feat
+    class ops,queue sys
+```
+
+| Colour | Meaning |
+| --- | --- |
+| Purple | Reference data. Exists before any user and rarely changes |
+| Orange | Accounts. Most of the rest hangs off this |
+| Green | Feature domains — what users create |
+| Blue | System tables. Not created by users directly, but produced by what they do |
+
+## The core trading relationships
+
+The backbone of the listings domain — how one listing becomes a conversation and
+then a trade.
+
+```mermaid
+erDiagram
+    profiles ||--o{ posts : "lists"
+    profiles ||--o{ blocked_users : "blocks"
+
+    posts ||--|{ post_i18n : "8 locales"
+    posts ||--o{ post_photos : "photos"
+    posts ||--o{ post_interests : "saves"
+    posts ||--o| post_reservations : "hold"
+
+    posts ||--o{ conversations : "anchors"
+    conversations ||--o{ messages : "messages"
+
+    posts ||--o| transactions : "sold as"
+    transactions ||--o{ trade_reviews : "reviews"
+
+    suburbs ||--o{ posts : "located in"
+    categories ||--o{ posts : "classified as"
+```
+
+A few things to read off it:
+
+- **`posts` → `post_i18n` is one-to-many with a minimum of one.** All eight locales
+  are filled at publish time, so a listing with no translations is not a valid
+  state.
+- **`conversations` hangs off `posts`.** The product rule that a room is anchored to
+  seller + buyer + listing is in the schema itself.
+- **`transactions` is zero-or-one per listing** — absent until it sells.
+- **Reviews attach to `transactions`, not to `posts`**, so they survive the listing
+  being deleted.
+
 ## Tables by domain
 
 ### Accounts and profiles

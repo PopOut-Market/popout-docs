@@ -29,6 +29,91 @@ Confluence의
 
 :::
 
+## 도메인 지도
+
+테이블 70여 개가 일곱 도메인으로 나뉩니다. **`profiles`가 한가운데 있고, 나머지 거의 전부가
+거기서 뻗어 나갑니다.**
+
+```mermaid
+%%{init: {"layout": "elk"}}%%
+flowchart TB
+    ref["기준 데이터<br/>suburbs · categories<br/>app_config · guide_shops"]
+    acc["계정<br/>profiles · blocked_users<br/>banned_phone_numbers"]
+
+    sell["판매<br/>posts · post_i18n · post_photos<br/>post_interests · post_reservations<br/>transactions · trade_reviews"]
+    chat["채팅<br/>conversations · messages"]
+    comm["커뮤니티<br/>community_posts · _replies<br/>_likes · _polls"]
+    rew["리워드<br/>reward_coin_ledger · reward_vouchers<br/>member_level_state"]
+
+    ops["운영<br/>notifications · *_reports<br/>*_restrictions · *_appeals"]
+    queue["큐<br/>post_translation_queue<br/>meili_sync_queue"]
+
+    ref --> acc
+    ref --> sell
+    acc --> sell
+    acc --> comm
+    acc --> rew
+    sell --> chat
+    sell --> queue
+    comm --> queue
+    sell --> ops
+    comm --> ops
+    acc --> ops
+    sell --> rew
+    comm --> rew
+
+    classDef base fill:#8b7cc822,stroke:#8b7cc8,stroke-width:2px
+    classDef core fill:#ff8c0022,stroke:#e07b00,stroke-width:2px
+    classDef feat fill:#22c55e22,stroke:#35a06a,stroke-width:2px
+    classDef sys fill:#00a6f422,stroke:#2f8fd0,stroke-width:2px
+
+    class ref base
+    class acc core
+    class sell,chat,comm,rew feat
+    class ops,queue sys
+```
+
+| 색 | 뜻 |
+| --- | --- |
+| 보라 | 기준 데이터. 사용자보다 먼저 존재하고, 거의 변하지 않습니다 |
+| 주황 | 계정. 나머지 대부분이 여기에 매달립니다 |
+| 초록 | 기능 도메인. 사용자가 만들어 내는 것 |
+| 파랑 | 시스템. 사용자가 직접 만들지 않지만 기능이 발생시키는 것 |
+
+## 거래 흐름의 핵심 관계
+
+판매 도메인의 뼈대입니다. 게시글 하나가 어떻게 대화와 거래로 이어지는지 보여 줍니다.
+
+```mermaid
+erDiagram
+    profiles ||--o{ posts : "올린다"
+    profiles ||--o{ blocked_users : "차단한다"
+
+    posts ||--|{ post_i18n : "8개 로케일"
+    posts ||--o{ post_photos : "사진"
+    posts ||--o{ post_interests : "찜"
+    posts ||--o| post_reservations : "예약"
+
+    posts ||--o{ conversations : "기준 게시글"
+    conversations ||--o{ messages : "메시지"
+
+    posts ||--o| transactions : "판매됨"
+    transactions ||--o{ trade_reviews : "후기"
+
+    suburbs ||--o{ posts : "속한 동네"
+    categories ||--o{ posts : "분류"
+```
+
+읽는 법 몇 가지:
+
+- **`posts` → `post_i18n`은 1:다수이고 최소 1입니다.** 등록 시점에 8개 로케일이 전부
+  채워지므로, 번역이 하나도 없는 게시글은 정상 상태가 아닙니다.
+- **`conversations`는 `posts`에 매달립니다.** 채팅방이 판매자·구매자·게시글 셋에 묶인다는
+  제품 규칙이 스키마에 그대로 있습니다.
+- **`transactions`는 `posts`에 0 또는 1개**입니다. 팔리지 않은 게시글에는 없습니다.
+- **후기는 `posts`가 아니라 `transactions`에 매답니다.** 게시글이 삭제돼도 후기가 남아야
+  하기 때문입니다.
+
 ## 도메인별 테이블
 
 ### 계정과 프로필

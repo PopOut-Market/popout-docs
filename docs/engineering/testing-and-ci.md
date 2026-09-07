@@ -93,6 +93,47 @@ npm run test:perf           # Reassure 렌더 성능 측정
 
 ## 지속적 통합
 
+상위 단계가 막으면 아래로 내려가지 않습니다.
+
+```mermaid
+%%{init: {"layout": "elk"}}%%
+flowchart LR
+    subgraph local["커밋 전 — 내 노트북"]
+        direction TB
+        l1["타입 검사"]
+        l2["금지 패턴 검사"]
+        l3["순환 검사<br/>madge --circular"]
+        l4["lint-staged<br/>ESLint + Prettier"]
+    end
+
+    subgraph ci["ci.yml — 병렬"]
+        direction TB
+        c1["quality<br/>타입 → lint → 순환 → Jest + 커버리지"]
+        c2["bundle-size<br/>예산 초과 시 실패"]
+    end
+
+    sec["security.yml"]
+    smoke["수동 스모크<br/>릴리스마다"]
+    ship["배포"]
+
+    local --> ci
+    local --> sec
+    ci --> smoke
+    sec --> smoke
+    smoke --> ship
+
+    classDef gate fill:#00a6f422,stroke:#2f8fd0,stroke-width:2px
+    classDef block fill:#ff8c0022,stroke:#e07b00,stroke-width:2px
+    classDef done fill:#22c55e22,stroke:#35a06a,stroke-width:2px
+
+    class l1,l2,l3,l4 gate
+    class c1,c2,sec block
+    class smoke,ship done
+```
+
+자동화된 E2E 계층이 없기 때문에, **수동 스모크가 배포 전 마지막 통합 검증 단계**입니다.
+
+
 워크플로는 세 개입니다. 머지를 막을 수 있는 것은 모두 풀 리퀘스트에서 돌고, 느리거나
 상태를 갖는 것은 일정에 따라 돕니다.
 

@@ -48,6 +48,8 @@ PopOut Market은 iOS와 Android용 **하이퍼로컬 C2C 중고 거래 마켓**�
   가를 것인가.
 - **[접근성](./engineering/accessibility.md)** — 스크린 리더 라벨, 역할과 상태, 폰트 확대,
   대비 기준.
+- **[지표](./engineering/metrics.md)** — 세는 규칙, 두 개의 출처, 이벤트 원장.
+- **[오류와 복구](./engineering/error-recovery.md)** — 세 가지 실패 유형과 각각의 처리.
 
 ## 사업
 

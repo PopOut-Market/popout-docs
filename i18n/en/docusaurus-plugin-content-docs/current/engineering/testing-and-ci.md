@@ -99,6 +99,48 @@ npm run test:perf           # Reassure render-performance measurement
 
 ## Continuous integration
 
+If a stage above fails, nothing below it runs.
+
+```mermaid
+%%{init: {"layout": "elk"}}%%
+flowchart LR
+    subgraph local["Pre-commit — your laptop"]
+        direction TB
+        l1["Typecheck"]
+        l2["Lint bans"]
+        l3["Cycle check<br/>madge --circular"]
+        l4["lint-staged<br/>ESLint + Prettier"]
+    end
+
+    subgraph ci["ci.yml — in parallel"]
+        direction TB
+        c1["quality<br/>types → lint → cycles → Jest + coverage"]
+        c2["bundle-size<br/>fails over budget"]
+    end
+
+    sec["security.yml"]
+    smoke["Manual smoke<br/>every release"]
+    ship["Ship"]
+
+    local --> ci
+    local --> sec
+    ci --> smoke
+    sec --> smoke
+    smoke --> ship
+
+    classDef gate fill:#00a6f422,stroke:#2f8fd0,stroke-width:2px
+    classDef block fill:#ff8c0022,stroke:#e07b00,stroke-width:2px
+    classDef done fill:#22c55e22,stroke:#35a06a,stroke-width:2px
+
+    class l1,l2,l3,l4 gate
+    class c1,c2,sec block
+    class smoke,ship done
+```
+
+Because there is no automated E2E layer, **manual smoke is the last integration
+check before shipping.**
+
+
 Three workflows. Everything that can block a merge runs on pull requests;
 everything slow or stateful runs on a schedule.
 

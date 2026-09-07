@@ -32,9 +32,36 @@ and holds no logic of its own.
 
 ## Dependency flow
 
+Imports may only travel in the direction of the arrows. Nothing goes backwards.
+
+```mermaid
+%%{init: {"layout": "elk"}}%%
+flowchart LR
+    shared["shared/<br/>helpers · hooks · stores · theme"]
+    ui["ui/<br/>design-system primitives"]
+    feat["features/&lt;name&gt;/<br/>feature modules"]
+    app["app/<br/>Expo Router routes"]
+    sb[("supabase/<br/>migrations · edge functions")]
+
+    shared --> ui --> feat --> app
+    shared -.->|"also directly"| feat
+    shared -.-> app
+    ui -.-> app
+
+    classDef low fill:#8b7cc822,stroke:#8b7cc8,stroke-width:2px
+    classDef mid fill:#00a6f422,stroke:#2f8fd0,stroke-width:2px
+    classDef high fill:#ff8c0022,stroke:#e07b00,stroke-width:2px
+    classDef sep fill:#22c55e22,stroke:#35a06a,stroke-width:2px
+
+    class shared low
+    class ui mid
+    class feat mid
+    class app high
+    class sb sep
 ```
-shared  →  ui  →  features  →  app
-```
+
+`supabase/` sitting off to the side is deliberate: **nothing connects it to the
+mobile code at all.**
 
 `supabase/` is independent of all mobile code.
 
