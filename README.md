@@ -81,14 +81,8 @@ custom domain in **Site configuration → Domain management**) and set `url` in
 `docusaurus.config.ts` to match, so canonical links and the sitemap are correct.
 `baseUrl` is already `'/'` for root-domain serving.
 
-> A [`vercel.json`](vercel.json) is also kept in the repo. It's unused while the
-> site is on Netlify, but lets the project deploy on Vercel too if the org ever
-> moves to a Vercel Pro plan.
+### CI
 
-### GitHub Pages (fallback, off)
-
-`.github/workflows/deploy.yml` still contains the Pages build+publish steps but
-is set to **manual-only** (`workflow_dispatch`) so it no longer runs on push. To
-switch back to Pages, re-add the `push` trigger and set `url`/`baseUrl` back to
-the project-path form. `.github/workflows/test-deploy.yml` (PR type-check +
-build, no deploy) is unaffected and keeps working.
+`.github/workflows/test-deploy.yml` type-checks and builds the site on every
+pull request (no deploy — Netlify owns deploys). It's the guard that a PR won't
+break the Netlify build.
