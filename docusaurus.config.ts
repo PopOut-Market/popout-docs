@@ -23,7 +23,7 @@ const config: Config = {
   // assigns, or a custom domain once attached). It affects absolute links,
   // canonical URLs, and the sitemap; get it wrong and the site still renders,
   // but those absolute references point at the wrong host.
-  url: 'https://popout-docs.netlify.app',
+  url: 'https://keen-wisp-0f5ad6.netlify.app',
   baseUrl: '/',
   trailingSlash: false,
 
@@ -45,11 +45,20 @@ const config: Config = {
   // `%%{init: {"layout": "elk"}}%%` directive. See src/mermaid-elk.ts.
   clientModules: ['./src/mermaid-elk.ts'],
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang.
+  // English and Korean. English is served at the site root; Korean at /ko/.
+  // Translated Markdown lives under
+  // i18n/ko/docusaurus-plugin-content-docs/current/, mirroring docs/ exactly —
+  // a file missing there falls back to its English original rather than 404ing.
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ko'],
+    localeConfigs: {
+      en: {label: 'English'},
+      // The label is an endonym: it stays in its own script so a reader who
+      // cannot read the current language still recognises their option. Same
+      // rule the app itself follows for its language menu.
+      ko: {label: '한국어'},
+    },
   },
 
   presets: [
@@ -103,6 +112,12 @@ const config: Config = {
           sidebarId: 'docsSidebar',
           position: 'left',
           label: 'Docs',
+        },
+        {
+          // The language switcher. Docusaurus renders it as a dropdown listing
+          // every locale in i18n.locales, labelled by its localeConfigs label.
+          type: 'localeDropdown',
+          position: 'right',
         },
         {
           href: `https://github.com/${organizationName}/${projectName}`,

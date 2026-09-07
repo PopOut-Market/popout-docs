@@ -2,6 +2,8 @@
 
 Documentation site for PopOut Market, built with [Docusaurus 3](https://docusaurus.io/).
 
+**Live site:** <https://keen-wisp-0f5ad6.netlify.app>
+
 ## Quick start
 
 Requires Node.js 20+.
@@ -34,6 +36,9 @@ The build fails on broken internal links, so a green build means the navigation
 is intact.
 
 ## Deployment
+
+**Live at <https://keen-wisp-0f5ad6.netlify.app>** — Netlify project `keen-wisp-0f5ad6`,
+auto-deploying from `main`.
 
 Deployed on **Netlify** via its GitHub integration. Netlify's free plan supports
 continuous deploy from **private organization** repos, which is why it's used
