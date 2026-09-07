@@ -50,6 +50,8 @@ PopOut Market은 iOS와 Android용 **하이퍼로컬 C2C 중고 거래 마켓**�
   대비 기준.
 - **[지표](./engineering/metrics.md)** — 세는 규칙, 두 개의 출처, 이벤트 원장.
 - **[오류와 복구](./engineering/error-recovery.md)** — 세 가지 실패 유형과 각각의 처리.
+- **[상태 조율](./engineering/state-coordination.md)** — 캐시·리스너·생명주기 규칙.
+  어기면 아무것도 실패하지 않고, 며칠 뒤 사용자 기기에서 틀린 값이 보입니다.
 
 ## 사업
 

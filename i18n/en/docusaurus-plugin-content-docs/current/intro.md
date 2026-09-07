@@ -55,6 +55,9 @@ How the app is built, deployed, and kept working.
   and the event ledger.
 - **[Errors & Recovery](./engineering/error-recovery.md)** — three kinds of failure
   and the handling each one gets.
+- **[State Coordination](./engineering/state-coordination.md)** — cache, listener,
+  and lifecycle rules that fail nothing when broken, then show a wrong value days
+  later.
 
 ## Business
 
