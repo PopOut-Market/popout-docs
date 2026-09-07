@@ -18,16 +18,28 @@ const config: Config = {
   },
 
   // Production URL and the /<baseUrl>/ pathname the site is served under.
-  // For a custom domain, set url to that domain and baseUrl to '/'.
-  url: `https://${organizationName.toLowerCase()}.github.io`,
-  baseUrl: `/${projectName}/`,
+  // Deployed on Vercel, which serves at the domain root, so baseUrl is '/'.
+  // Set `url` to the site's live domain (the *.vercel.app domain Vercel assigns,
+  // or a custom domain once attached). It affects absolute links, canonical
+  // URLs, and the sitemap; get it wrong and the site still renders, but those
+  // absolute references point at the wrong host.
+  url: 'https://popout-docs.vercel.app',
+  baseUrl: '/',
   trailingSlash: false,
 
-  // GitHub Pages deployment config.
+  // Used for the "Edit this page" links and the GitHub navbar item, which point
+  // at the source repo regardless of where the site is hosted.
   organizationName,
   projectName,
 
   onBrokenLinks: 'throw',
+
+  // Render ```mermaid fenced blocks as diagrams. Architecture diagrams are
+  // authored as code so they diff in review like any other source.
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang.
@@ -60,6 +72,20 @@ const config: Config = {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       respectPrefersColorScheme: true,
+    },
+    // Mermaid renders with the built-in theme matching the reader's colour
+    // mode, so backgrounds, edges, and label text stay legible in both.
+    // Brand accents are applied per-diagram with `classDef` (see
+    // src/css/custom.css for the shared palette those classDefs use), because
+    // themeVariables are global and cannot vary by colour mode.
+    mermaid: {
+      theme: {light: 'neutral', dark: 'dark'},
+      options: {
+        fontFamily:
+          "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+        flowchart: {curve: 'basis', nodeSpacing: 40, rankSpacing: 55},
+        sequence: {actorMargin: 40, boxMargin: 8, mirrorActors: false},
+      },
     },
     navbar: {
       title: 'PopOut Docs',

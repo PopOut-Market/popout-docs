@@ -1,30 +1,85 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Global styles for the PopOut docs site.
+ *
+ * The palette is derived from the app's own brand tokens
+ * (see /engineering/conventions#design-tokens). The light-mode primary is a
+ * darkened amber rather than the raw brand orange (#FF8C00), which is too
+ * light to read as link text on white; dark mode uses the raw brand colour,
+ * which reads well on a dark ground.
  */
 
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --popout-brand: #ff8c00;
+  --popout-brand-dark: #cc3200;
+  --popout-highlight: #00a6f4;
+
+  --ifm-color-primary: #c26a00;
+  --ifm-color-primary-dark: #af5f00;
+  --ifm-color-primary-darker: #a55a00;
+  --ifm-color-primary-darkest: #884a00;
+  --ifm-color-primary-light: #d57500;
+  --ifm-color-primary-lighter: #df7a00;
+  --ifm-color-primary-lightest: #ff8c00;
+
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --popout-diagram-bg: #fbfbfb;
+  --popout-diagram-border: rgba(0, 0, 0, 0.08);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #ff9d24;
+  --ifm-color-primary-dark: #fa8c00;
+  --ifm-color-primary-darker: #ec8500;
+  --ifm-color-primary-darkest: #c26d00;
+  --ifm-color-primary-light: #ffad48;
+  --ifm-color-primary-lighter: #ffb65c;
+  --ifm-color-primary-lightest: #ffcb8f;
+
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --popout-diagram-bg: rgba(255, 255, 255, 0.03);
+  --popout-diagram-border: rgba(255, 255, 255, 0.1);
+}
+
+/**
+ * Diagram presentation.
+ *
+ * Mermaid renders an inline SVG that, left alone, sits flush against body
+ * text at whatever width it happens to need. Giving it a panel of its own
+ * separates "this is a picture of the system" from the prose around it, and
+ * the horizontal scroll keeps a wide diagram from widening the whole page on
+ * a narrow screen.
+ */
+.docusaurus-mermaid-container {
+  margin: 1.75rem 0;
+  padding: 1.25rem 1rem;
+  background: var(--popout-diagram-bg);
+  border: 1px solid var(--popout-diagram-border);
+  border-radius: 10px;
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* Mermaid sets an inline `max-width` equal to the diagram's natural pixel
+   width, so a diagram narrower than the column renders small and floats in
+   the middle of its panel. Releasing that cap lets it scale up to the column
+   width instead; the viewBox keeps it proportional. */
+.docusaurus-mermaid-container svg {
+  max-width: none !important;
+  width: 100%;
+  height: auto;
+}
+
+/* Tables in these docs are mostly reference matrices: left-aligned, and
+   allowed to scroll rather than squeeze on a phone. */
+.markdown table {
+  display: table;
+  width: 100%;
+}
+
+.markdown > table + p,
+.markdown > .docusaurus-mermaid-container + p {
+  margin-top: 1rem;
 }

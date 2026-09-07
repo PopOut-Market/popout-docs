@@ -35,34 +35,52 @@ is intact.
 
 ## Deployment
 
-**Not yet enabled.** The workflows below are committed and ready, but no
-deployment is currently wired up.
+Deployed on **Vercel** via its GitHub integration. Vercel's free tier serves
+private repos, which is why it's used here instead of GitHub Pages (Pages needs
+a paid plan for a private repo, and `PopOut-Market` is on the free plan).
 
-### Why it isn't live
+### How it deploys
 
-GitHub Pages requires a paid plan (Pro, Team, or Enterprise Cloud) to serve a
-**private** repository. `popout-docs` is private and the `PopOut-Market`
-organization is on the **free** plan, so Pages cannot be enabled here — the
-setting fails in the UI and via the API alike.
+Once the repo is connected to a Vercel project:
 
-To turn it on, pick one:
+- **Every push to `main`** triggers a production build and deploy.
+- **Every pull request** gets its own preview deployment with a unique URL.
 
-| Option | Effect |
-| --- | --- |
-| Make the repo public | Pages works on the free plan; the workflows below run as-is. Docs become world-readable. |
-| Upgrade the org to Team | Keeps the repo private and allows a private-visibility Pages site. |
-| Use Cloudflare Pages / Vercel / Netlify | Free tiers support private repos. Set `baseUrl` to `'/'` and configure the build in the provider's dashboard (`npm run build`, output `build/`). |
+Vercel auto-detects Docusaurus. The build settings are also pinned explicitly in
+[`vercel.json`](vercel.json): framework `docusaurus-2`, build `npm run build`,
+output `build/`.
 
-Once Pages is available, set **Settings → Pages → Source** to **GitHub Actions**
-(or run `gh api -X POST repos/PopOut-Market/popout-docs/pages -f build_type=workflow`).
+### One-time setup (connect the repo)
 
-### The workflows
+The build config lives in the repo, but linking the repo to Vercel is a one-time
+step done in your Vercel account — pick either:
 
-- `.github/workflows/deploy.yml` — on push to `main`, builds the site and
-  publishes it to GitHub Pages. Inert until Pages is enabled.
-- `.github/workflows/test-deploy.yml` — on pull requests, type-checks and builds
-  without deploying. **This one works today** and needs no Pages setup.
+**Dashboard (simplest):**
 
-The site is configured for `https://popout-market.github.io/popout-docs/`. For a
-custom domain, set `url` to the domain and `baseUrl` to `'/'` in
-`docusaurus.config.ts`.
+1. <https://vercel.com/new> → **Import** the `PopOut-Market/popout-docs` repo
+   (authorize Vercel for the org/repo if prompted).
+2. Vercel detects Docusaurus and fills in the build settings from `vercel.json`.
+   Leave the **Root Directory** at the repo root.
+3. **Deploy.** Auto-deploy on push + PR previews are on by default afterward.
+
+**Or the CLI** (run from `popout-docs/`):
+
+```bash
+npm i -g vercel
+vercel login
+vercel link       # create/link the Vercel project
+vercel --prod     # first production deploy
+```
+
+After the first deploy, note the assigned `*.vercel.app` domain (or attach a
+custom domain in **Project → Settings → Domains**) and set `url` in
+`docusaurus.config.ts` to match, so canonical links and the sitemap are correct.
+`baseUrl` is already `'/'` for root-domain serving.
+
+### GitHub Pages (fallback, off)
+
+`.github/workflows/deploy.yml` still contains the Pages build+publish steps but
+is set to **manual-only** (`workflow_dispatch`) so it no longer runs on push. To
+switch back to Pages, re-add the `push` trigger and set `url`/`baseUrl` back to
+the project-path form. `.github/workflows/test-deploy.yml` (PR type-check +
+build, no deploy) is unaffected and keeps working.
