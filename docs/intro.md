@@ -44,6 +44,10 @@ PopOut Market은 iOS와 Android용 **하이퍼로컬 C2C 중고 거래 마켓**�
 - **[디자인 규칙](./engineering/design-rules.md)** — 8pt 그리드, 타이포 스케일, 터치
   타깃, 카드 레이아웃, 반응형.
 - **[데이터베이스](./engineering/database.md)** — 도메인별 테이블, 위치 처리, 큐 테이블.
+- **[플랫폼 분기](./engineering/platform.md)** — iOS와 Android를 어디까지, 어떻게
+  가를 것인가.
+- **[접근성](./engineering/accessibility.md)** — 스크린 리더 라벨, 역할과 상태, 폰트 확대,
+  대비 기준.
 
 ## 사업
 

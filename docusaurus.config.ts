@@ -39,7 +39,45 @@ const config: Config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+
+    // Offline search. The index is built from the rendered HTML during
+    // `docusaurus build` and shipped as a static JSON file, so search works on
+    // Netlify's CDN with no Algolia account, no crawler, and no runtime
+    // backend. `docusaurus start` does NOT index — the dev server has no build
+    // output to scan — so the search bar only returns results against a
+    // production build (`npm run build && npm run serve`).
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        // One index per locale: Docusaurus builds ko and en separately, and
+        // each build writes its own search-index.json next to its HTML. Both
+        // stemmers are loaded because either index may hold both scripts —
+        // Korean docs quote English identifiers, and vice versa.
+        language: ['ko', 'en'],
+
+        // Docs-only site (routeBasePath '/'), so the docs live at the root and
+        // there is no blog or standalone page to index.
+        docsRouteBasePath: '/',
+        indexBlog: false,
+        indexPages: false,
+
+        // Fingerprint the index filename. Without it a reader's browser can
+        // serve a cached index from a previous deploy and silently miss pages
+        // that were added since.
+        hashed: true,
+
+        // Show the full doc path under each hit and highlight the query on the
+        // page you land on — both matter here because section titles repeat
+        // across the product and engineering trees.
+        explicitSearchResultPath: true,
+        highlightSearchTermsOnTargetPage: true,
+        searchResultLimits: 10,
+        searchResultContextMaxLength: 80,
+      },
+    ],
+  ],
 
   // Registers Mermaid's ELK layout engine, which diagrams opt into with an
   // `%%{init: {"layout": "elk"}}%%` directive. See src/mermaid-elk.ts.
@@ -114,6 +152,12 @@ const config: Config = {
           sidebarId: 'docsSidebar',
           position: 'left',
           label: '문서',
+        },
+        {
+          // Placed explicitly so the search box sits left of the language and
+          // GitHub items; without this item the theme appends it last.
+          type: 'search',
+          position: 'right',
         },
         {
           // The language switcher. Docusaurus renders it as a dropdown listing

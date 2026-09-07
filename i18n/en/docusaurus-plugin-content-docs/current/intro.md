@@ -47,6 +47,10 @@ How the app is built, deployed, and kept working.
   touch targets, card layout, and responsive rules.
 - **[Database](./engineering/database.md)** — tables by domain, location
   handling, and the queue tables.
+- **[Platform Divergence](./engineering/platform.md)** — how far iOS and Android
+  may diverge, and how to split them.
+- **[Accessibility](./engineering/accessibility.md)** — screen-reader labels,
+  roles and states, font scaling, contrast thresholds.
 
 ## Business
 
