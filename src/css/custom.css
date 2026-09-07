@@ -70,6 +70,10 @@
   max-width: none !important;
   width: 100%;
   height: auto;
+  /* ELK lays tall graphs out vertically, and at 100% width a portrait diagram
+     would fill the whole viewport. The cap scales it down to fit; the SVG's
+     preserveAspectRatio keeps it centred and undistorted. */
+  max-height: 78vh;
 }
 
 /* Tables in these docs are mostly reference matrices: left-aligned, and

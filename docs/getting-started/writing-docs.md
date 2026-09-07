@@ -23,6 +23,16 @@ Your content here.
 
 That file is served at `/guides/checkout`.
 
+:::note[Add pages in both languages]
+
+This site ships English and Korean. When you add an English page, add its Korean
+counterpart at the same path under
+`i18n/ko/docusaurus-plugin-content-docs/current/`. Relative links resolve inside
+a locale tree, so a missing counterpart fails the Korean build on any link
+pointing at that page.
+
+:::
+
 ## Frontmatter
 
 | Field | Purpose |
@@ -72,3 +82,44 @@ Tag the language for highlighting, and optionally a title:
 export const greet = (name: string) => `Hello, ${name}`;
 ```
 ````
+
+## Admonitions
+
+Docusaurus 3 takes the title in **square brackets**. The pre-v3 form
+`:::note My title` does not parse and renders as literal text in the page, so
+watch for that when copying older examples:
+
+```md
+:::warning[Read this first]
+
+The warning body.
+
+:::
+```
+
+`note`, `tip`, `info`, `warning`, and `danger` are available. Omit the brackets
+entirely for an untitled admonition.
+
+## Diagrams
+
+Diagrams are authored as code — a ` ```mermaid ` fence renders as a diagram, so
+it diffs in review like any other source.
+
+````md
+```mermaid
+%%{init: {"layout": "elk"}}%%
+flowchart TB
+    a["App"] --> b["Backend"]
+```
+````
+
+Two conventions:
+
+- **Put `%%{init: {"layout": "elk"}}%%` on the first line.** The default layout
+  engine makes no attempt to avoid crossing edges; ELK minimises crossings and
+  routes edges orthogonally. Sequence diagrams have a fixed layout and ignore it.
+- **Colour with `classDef`, carried by the stroke.** Use a strong `stroke` and a
+  translucent fill, and do **not** set `color:` on a classDef — Mermaid's dark
+  theme overrides label colour anyway, which would leave light text on a light
+  chip. Copying the `classDef` lines from an existing diagram keeps the palette
+  consistent.
