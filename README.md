@@ -35,47 +35,50 @@ is intact.
 
 ## Deployment
 
-Deployed on **Vercel** via its GitHub integration. Vercel's free tier serves
-private repos, which is why it's used here instead of GitHub Pages (Pages needs
-a paid plan for a private repo, and `PopOut-Market` is on the free plan).
+Deployed on **Netlify** via its GitHub integration. Netlify's free plan supports
+continuous deploy from **private organization** repos, which is why it's used
+here instead of GitHub Pages (Pages needs a paid plan for a private repo) or
+Vercel (its free Hobby plan won't deploy a private *org*-owned repo). The sibling
+`Website/` project also deploys on Netlify.
 
 ### How it deploys
 
-Once the repo is connected to a Vercel project:
+Once the repo is connected to a Netlify site:
 
 - **Every push to `main`** triggers a production build and deploy.
-- **Every pull request** gets its own preview deployment with a unique URL.
+- **Every pull request** gets its own deploy preview with a unique URL.
 
-Vercel auto-detects Docusaurus. The build settings are also pinned explicitly in
-[`vercel.json`](vercel.json): framework `docusaurus-2`, build `npm run build`,
-output `build/`.
+Netlify reads its build settings from [`netlify.toml`](netlify.toml): build
+`npm run build`, publish `build/`, Node 20.
 
 ### One-time setup (connect the repo)
 
-The build config lives in the repo, but linking the repo to Vercel is a one-time
-step done in your Vercel account — pick either:
+The build config lives in the repo, but linking the repo to Netlify is a one-time
+step done in the Netlify account:
 
-**Dashboard (simplest):**
-
-1. <https://vercel.com/new> → **Import** the `PopOut-Market/popout-docs` repo
-   (authorize Vercel for the org/repo if prompted).
-2. Vercel detects Docusaurus and fills in the build settings from `vercel.json`.
-   Leave the **Root Directory** at the repo root.
-3. **Deploy.** Auto-deploy on push + PR previews are on by default afterward.
+1. <https://app.netlify.com/start> → **Import from Git** → **GitHub**, and
+   authorize Netlify for the `PopOut-Market` org / `popout-docs` repo if prompted.
+2. Netlify reads `netlify.toml`, so the build command and publish dir are
+   pre-filled. Leave the **base directory** at the repo root.
+3. **Deploy.** Auto-deploy on push + deploy previews are on by default afterward.
 
 **Or the CLI** (run from `popout-docs/`):
 
 ```bash
-npm i -g vercel
-vercel login
-vercel link       # create/link the Vercel project
-vercel --prod     # first production deploy
+npm i -g netlify-cli
+netlify login
+netlify init      # create/link the Netlify site
+netlify deploy --prod
 ```
 
-After the first deploy, note the assigned `*.vercel.app` domain (or attach a
-custom domain in **Project → Settings → Domains**) and set `url` in
+After the first deploy, note the assigned `*.netlify.app` domain (or attach a
+custom domain in **Site configuration → Domain management**) and set `url` in
 `docusaurus.config.ts` to match, so canonical links and the sitemap are correct.
 `baseUrl` is already `'/'` for root-domain serving.
+
+> A [`vercel.json`](vercel.json) is also kept in the repo. It's unused while the
+> site is on Netlify, but lets the project deploy on Vercel too if the org ever
+> moves to a Vercel Pro plan.
 
 ### GitHub Pages (fallback, off)
 

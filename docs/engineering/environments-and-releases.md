@@ -136,6 +136,7 @@ Update `.env.example` whenever a new client-safe variable is introduced.
 ## Which lane does a change ship in?
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 flowchart TB
     change["A change is ready to ship"]
     q{"Does it change<br/>the native layer?"}

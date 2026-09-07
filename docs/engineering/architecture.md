@@ -16,6 +16,7 @@ search index as untrusted. Both are covered below.
 ## System context
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 flowchart TB
     app["Expo / React Native app<br/>on the user's phone"]
 
@@ -74,6 +75,7 @@ Every edge function falls into exactly one of these, and which one it is
 determines how it authenticates and what it may assume.
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 flowchart LR
     subgraph sync["① Synchronous — client-invoked"]
         direction TB
@@ -205,6 +207,7 @@ listing may be shown to this particular person.
 :::
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 flowchart LR
     q["Query text<br/>any of 8 languages"]
     m[("Meilisearch<br/>typo-tolerant · hybrid<br/>lexical + semantic")]
@@ -257,6 +260,7 @@ Search matches across languages because the *documents* are multilingual, not
 because the query is translated:
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 flowchart LR
     w["Seller writes<br/>in English"] --> raw["posts.raw_*"]
     raw --> tq["post_translation_queue"]
@@ -289,6 +293,7 @@ State is split three ways, and the split is deliberate — putting server data i
 client store is the mistake this layout exists to prevent.
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 flowchart TB
     subgraph routes["app/ — Expo Router"]
         r["Route files<br/><small>thin re-exports</small>"]

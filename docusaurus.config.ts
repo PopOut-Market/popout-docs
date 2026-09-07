@@ -18,12 +18,12 @@ const config: Config = {
   },
 
   // Production URL and the /<baseUrl>/ pathname the site is served under.
-  // Deployed on Vercel, which serves at the domain root, so baseUrl is '/'.
-  // Set `url` to the site's live domain (the *.vercel.app domain Vercel assigns,
-  // or a custom domain once attached). It affects absolute links, canonical
-  // URLs, and the sitemap; get it wrong and the site still renders, but those
-  // absolute references point at the wrong host.
-  url: 'https://popout-docs.vercel.app',
+  // Deployed on Netlify, which serves at the domain root, so baseUrl is '/'.
+  // Set `url` to the site's live domain (the *.netlify.app domain Netlify
+  // assigns, or a custom domain once attached). It affects absolute links,
+  // canonical URLs, and the sitemap; get it wrong and the site still renders,
+  // but those absolute references point at the wrong host.
+  url: 'https://popout-docs.netlify.app',
   baseUrl: '/',
   trailingSlash: false,
 
@@ -40,6 +40,10 @@ const config: Config = {
     mermaid: true,
   },
   themes: ['@docusaurus/theme-mermaid'],
+
+  // Registers Mermaid's ELK layout engine, which diagrams opt into with an
+  // `%%{init: {"layout": "elk"}}%%` directive. See src/mermaid-elk.ts.
+  clientModules: ['./src/mermaid-elk.ts'],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang.

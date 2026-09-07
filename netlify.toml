@@ -1,0 +1,12 @@
+# Netlify deploy config for the PopOut docs (Docusaurus 3).
+# Netlify's free plan supports continuous deploy from private org repos, so this
+# site builds here on push to main (production) with deploy previews on PRs.
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  # Docusaurus 3 requires Node 20+ (see package.json "engines").
+  NODE_VERSION = "20"
+
+# SPA-style fallback is NOT needed: Docusaurus emits a real .html per route.
