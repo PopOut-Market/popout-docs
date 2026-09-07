@@ -58,6 +58,8 @@ How the app is built, deployed, and kept working.
 - **[State Coordination](./engineering/state-coordination.md)** — cache, listener,
   and lifecycle rules that fail nothing when broken, then show a wrong value days
   later.
+- **[Development Workflow](./engineering/workflow.md)** — nine stages, three lanes,
+  the cross-model audit, and the two-file spec model.
 
 ## Business
 
