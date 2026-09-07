@@ -31,6 +31,24 @@ where it sits.
 Topic filters behave as radio buttons — exactly one is always chosen, and **All**
 is the default.
 
+### The topics
+
+Beyond All, there are five neighbourhood topics.
+
+| Topic | What belongs there |
+| --- | --- |
+| **Questions & reports** | Questions looking for an answer, and reports of local incidents |
+| **Tips & deals** | Anything genuinely useful to someone else — shop discounts, good restaurants, transport deals, small-business promotions |
+| **Neighbourhood life** | Personal stories, and posts looking for friends or a group |
+| **Wanted** | Every flavour of "looking to buy" |
+| **Other** | Anything that fits none of the above |
+
+The boundaries are not always obvious. "Anyone know what that bang was last
+night?" could be a report or just neighbourhood life; "the restaurant I went to
+today was cheap and generous" could be life or a tip. So posts nobody has
+categorised are sorted in the background, and until one is sorted its card shows
+no topic label at all.
+
 ### The card
 
 Each card is laid out sideways: a text column on the left and an optional square

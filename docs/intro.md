@@ -41,6 +41,9 @@ PopOut Market은 iOS와 Android용 **하이퍼로컬 C2C 중고 거래 마켓**�
 - **[테스트와 CI](./engineering/testing-and-ci.md)** — 테스트 계층, 머지를 막는 것,
   커버리지 하한선.
 - **[컨벤션](./engineering/conventions.md)** — 커밋, 번역, 디자인 토큰, 화면 유형.
+- **[디자인 규칙](./engineering/design-rules.md)** — 8pt 그리드, 타이포 스케일, 터치
+  타깃, 카드 레이아웃, 반응형.
+- **[데이터베이스](./engineering/database.md)** — 도메인별 테이블, 위치 처리, 큐 테이블.
 
 ## 사업
 

@@ -43,6 +43,10 @@ How the app is built, deployed, and kept working.
   blocks a merge, and coverage floors.
 - **[Conventions](./engineering/conventions.md)** — commits, translations, design
   tokens, and screen types.
+- **[Design Rules](./engineering/design-rules.md)** — the 8pt grid, type scale,
+  touch targets, card layout, and responsive rules.
+- **[Database](./engineering/database.md)** — tables by domain, location
+  handling, and the queue tables.
 
 ## Business
 
