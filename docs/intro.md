@@ -42,6 +42,13 @@ PopOut Market은 iOS와 Android용 **하이퍼로컬 C2C 중고 거래 마켓**�
   커버리지 하한선.
 - **[컨벤션](./engineering/conventions.md)** — 커밋, 번역, 디자인 토큰, 화면 유형.
 
+## 사업
+
+PopOut이 왜 존재하는지, 어떤 시장을 겨냥하는지.
+
+- **[사업 배경](./business/background.md)** — 호주 중고거래 시장의 구조적 문제와
+  그에 대한 해결 방안.
+
 ## 이 문서에 기여하기
 
 [시작하기](./getting-started/installation.md)는 이 사이트를 로컬에서 실행하는 방법을,

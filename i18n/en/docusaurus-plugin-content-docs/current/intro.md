@@ -44,6 +44,13 @@ How the app is built, deployed, and kept working.
 - **[Conventions](./engineering/conventions.md)** — commits, translations, design
   tokens, and screen types.
 
+## Business
+
+Why PopOut exists, and which market it targets.
+
+- **[Business Background](./business/background.md)** — the structural problems
+  in Australia's second-hand market, and the proposed solution.
+
 ## Contributing to these docs
 
 [Getting Started](./getting-started/installation.md) covers running this site

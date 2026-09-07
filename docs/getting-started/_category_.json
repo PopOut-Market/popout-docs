@@ -1,6 +1,6 @@
 {
   "label": "시작하기",
-  "position": 4,
+  "position": 5,
   "link": {
     "type": "generated-index",
     "description": "문서 사이트를 로컬에서 실행하고 첫 페이지를 추가합니다."

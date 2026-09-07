@@ -26,5 +26,13 @@
   "sidebar.docsSidebar.category.시작하기.link.generated-index.description": {
     "message": "Run the docs site locally and add your first page.",
     "description": "The generated-index page description for category '시작하기' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.사업": {
+    "message": "Business",
+    "description": "The label for category '사업' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.사업.link.generated-index.description": {
+    "message": "Why PopOut exists — market background, the problem, and the solution.",
+    "description": "The generated-index page description for category '사업' in sidebar 'docsSidebar'"
   }
 }
