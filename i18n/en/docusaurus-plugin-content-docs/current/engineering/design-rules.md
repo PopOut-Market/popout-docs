@@ -154,8 +154,7 @@ distinguishable, and greys need four to six steps of hierarchy.
 
 :::note[Source]
 
-Adapted from the Confluence page
-[업계 디자인 규칙](https://communitymelb.atlassian.net/wiki/spaces/SecondHand/pages/46039041)
+Adapted from the internal Confluence page **업계 디자인 규칙**
 (v4, 2025-12-13). The original also carries an LLM prompt for applying these
 rules to existing code.
 

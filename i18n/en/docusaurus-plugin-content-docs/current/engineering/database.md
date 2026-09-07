@@ -11,9 +11,7 @@ to a table directly — it goes through RPC functions.
 
 :::warning[The Confluence Database Schema page is out of date]
 
-The Confluence
-[Database Schema](https://communitymelb.atlassian.net/wiki/spaces/SecondHand/pages/69861380)
-is a design-stage document, and it differs from the deployed schema **starting
+The internal Confluence **Database Schema** page is a design-stage document, and it differs from the deployed schema **starting
 with the table names**.
 
 | Confluence | Actual |

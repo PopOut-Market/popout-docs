@@ -11,9 +11,7 @@ Postgres에 PostGIS를 얹어 씁니다. 보안 경계는 RLS이며, 클라이�
 
 :::warning[Confluence의 Database Schema 문서는 최신이 아닙니다]
 
-Confluence의
-[Database Schema](https://communitymelb.atlassian.net/wiki/spaces/SecondHand/pages/69861380)는
-설계 단계 문서로, 실제 배포된 스키마와 **테이블 이름부터 다릅니다**.
+내부 Confluence의 **Database Schema** 문서는 설계 단계 문서로, 실제 배포된 스키마와 **테이블 이름부터 다릅니다**.
 
 | Confluence | 실제 |
 | --- | --- |

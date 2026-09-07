@@ -63,9 +63,7 @@ East/North/West Melbourne, Parkville, Southbank, South Wharf. 내부 밀도 기�
 
 :::note[원본]
 
-Confluence
-[Project Background](https://communitymelb.atlassian.net/wiki/spaces/SecondHand/pages/5472257)
-(v3, 2025-09-30)를 요약한 것입니다. 원본에는 비즈니스 모델·재무 전망·투자 요청 절이
+내부 Confluence의 **Project Background** 문서(v3, 2025-09-30)를 요약한 것입니다. 원본에는 비즈니스 모델·재무 전망·투자 요청 절이
 제목만 잡혀 있고 내용이 없어 여기에 옮기지 않았습니다.
 
 :::

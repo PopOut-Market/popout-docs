@@ -1,0 +1,16 @@
+# PopOut Docs — public documentation site.
+#
+# Indexing is allowed deliberately: this site is meant to be findable.
+# To take it back out of search, replace the Allow line below with:
+#   Disallow: /
+# (that hides it from crawlers but does NOT make it private — access control
+# lives in Netlify's site settings, not here.)
+#
+# The Sitemap URLs are absolute, so they must match `url` in
+# docusaurus.config.ts. Update both together when the domain changes.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://keen-wisp-0f5ad6.netlify.app/sitemap.xml
+Sitemap: https://keen-wisp-0f5ad6.netlify.app/en/sitemap.xml

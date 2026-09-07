@@ -69,8 +69,7 @@ internal density threshold is met.
 
 :::note[Source]
 
-Summarised from the Confluence page
-[Project Background](https://communitymelb.atlassian.net/wiki/spaces/SecondHand/pages/5472257)
+Summarised from the internal Confluence page **Project Background**
 (v3, 2025-09-30). The source's business-model, financial-projection, and
 investment-ask sections are headings with no content, so they are not carried
 over here.

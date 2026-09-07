@@ -149,9 +149,7 @@ WCAG 기준으로 **최소 4.5:1**을 지킵니다. 브랜드 강조색과 경�
 
 :::note[원본]
 
-Confluence
-[업계 디자인 규칙](https://communitymelb.atlassian.net/wiki/spaces/SecondHand/pages/46039041)
-(v4, 2025-12-13)을 정리한 것입니다. 원본에는 이 규칙을 코드에 적용시키기 위한 LLM
+내부 Confluence의 **업계 디자인 규칙** 문서(v4, 2025-12-13)를 정리한 것입니다. 원본에는 이 규칙을 코드에 적용시키기 위한 LLM
 프롬프트도 함께 들어 있습니다.
 
 :::
